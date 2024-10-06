@@ -13,7 +13,7 @@ let project = Project(
         .target(
             name: "Presentation",
             destinations: .iOS,
-            product: .staticLibrary,
+            product: .framework,
             bundleId: "io.tuist.Presentation",
             deploymentTargets: .iOS("17.5"),
             sources: "Sources/**",
