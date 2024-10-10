@@ -12,7 +12,7 @@ extension UILabel {
     func configureLabel(title: String,
                         ofSize: CGFloat,
                         weight: UIFont.Weight,
-                        indent: CGFloat) {
+                        indent: CGFloat = 0) {
         self.numberOfLines = 0
         
         let paragraphStyle = NSMutableParagraphStyle()

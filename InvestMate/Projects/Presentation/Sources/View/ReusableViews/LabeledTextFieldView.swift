@@ -40,9 +40,10 @@ class LabeledTextFieldView: UIView {
     }
     
     private func setLayout() {
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        
         NSLayoutConstraint.activate([
+            titleLabel.heightAnchor.constraint(equalToConstant: 14),
+            textField.heightAnchor.constraint(equalToConstant: 44),
+            
             stackView.leadingAnchor.constraint(equalTo: leadingAnchor),
             stackView.trailingAnchor.constraint(equalTo: trailingAnchor),
             stackView.topAnchor.constraint(equalTo: topAnchor),
@@ -56,6 +57,6 @@ import SwiftUI
 
 #Preview {
     LabeledTextFieldView(title: "Title", placeholder: "텍스트 필드").toPreview()
-        .frame(width: 150, height: 80)
+        .frame(width: 150, height: 60)
 }
 #endif

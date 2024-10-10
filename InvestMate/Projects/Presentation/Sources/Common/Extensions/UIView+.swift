@@ -10,7 +10,10 @@ import UIKit
 extension UIView {
     
     func addSubviews(_ views: UIView...) {
-        views.forEach { addSubview($0) }
+        views.forEach {
+            addSubview($0)
+            $0.translatesAutoresizingMaskIntoConstraints = false
+        }
     }
     
     func configureNumericInputField(placeholder: String,
@@ -40,7 +43,15 @@ extension UIView {
         self.clipsToBounds = true
         self.layer.cornerRadius = 10
         self.layer.borderWidth = 0.5
-        self.layer.borderColor = UIColor.systemGray4.cgColor
+        self.layer.borderColor = UIColor.systemGray6.cgColor
+    }
+    
+    func configureDivider(height: CGFloat = 1, color: UIColor = .systemGray4) {
+        self.backgroundColor = color
         
+        self.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            self.heightAnchor.constraint(equalToConstant: height)
+        ])
     }
 }

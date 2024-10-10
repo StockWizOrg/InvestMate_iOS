@@ -27,7 +27,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         // UIWindow 설정
         window = UIWindow(windowScene: windowScene)
-        let viewController = ViewController()
+        let viewController = AdditionalPurchaseViewController()
         window?.rootViewController = viewController
         window?.makeKeyAndVisible()
     }

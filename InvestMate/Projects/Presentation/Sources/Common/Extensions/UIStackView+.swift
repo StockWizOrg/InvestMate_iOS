@@ -10,19 +10,26 @@ import UIKit
 extension UIStackView {
     
     func addArrangedSubviews(_ subviews: UIView...) {
-        subviews.forEach{ addArrangedSubview($0) }
+        subviews.forEach{
+            addArrangedSubview($0)
+            $0.translatesAutoresizingMaskIntoConstraints = false
+        }
     }
     
     func configureStackView(axis: NSLayoutConstraint.Axis = .vertical,
-                            isMainStack: Bool = false) {
-        self.axis = axis
-        self.alignment = .fill
-        self.distribution = .fillProportionally
+                            distribution: UIStackView.Distribution = .fillProportionally,
+                            spacing: CGFloat = 4) {
         
-        if isMainStack {
-            self.spacing = 8
+        if axis == .vertical {
+            self.axis = axis
+            self.alignment = .fill
+            self.distribution = distribution
+            self.spacing = spacing
         } else {
-            self.spacing = 4
+            self.axis = axis
+            self.alignment = .fill
+            self.distribution = .fillEqually
+            self.spacing = 20
         }
     }
 }
