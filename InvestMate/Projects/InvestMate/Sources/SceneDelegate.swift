@@ -27,8 +27,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         // UIWindow 설정
         window = UIWindow(windowScene: windowScene)
-        let viewController = ViewController(viewModel: viewModel)
-        viewController.view.backgroundColor = .orange
+        let viewController = AdditionalPurchaseViewController()
         window?.rootViewController = viewController
         window?.makeKeyAndVisible()
     }
