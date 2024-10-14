@@ -18,7 +18,10 @@ let project = Project(
             deploymentTargets: .iOS("17.5"),
             sources: "Sources/**",
             dependencies: [
-                .project(target: "Domain", path: "../Domain")
+                .project(target: "Domain", path: "../Domain"),
+                .external(name: "RxSwift"),
+                .external(name: "RxCocoa"),
+                .external(name: "ReactorKit")
             ]
         )
     ]

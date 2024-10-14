@@ -17,7 +17,9 @@ let project = Project(
             bundleId: "io.tuist.Domain",
             deploymentTargets: .iOS("17.5"),
             sources: "Sources/**",
-            dependencies: []
+            dependencies: [
+                .external(name: "RxSwift")
+            ]
         )
     ]
 )
