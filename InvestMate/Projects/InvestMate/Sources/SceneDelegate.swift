@@ -16,13 +16,16 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         
-        // UIWindowScene을 가져옵니다.
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
-        // UIWindow 설정
-        window = UIWindow(windowScene: windowScene)
-        let viewController = AdditionalPurchaseViewController(reactor: AdditionalPurchaseReactor(calculator: StockCalculatorImpl()), calculator: StockCalculatorImpl())
-        window?.rootViewController = viewController
-        window?.makeKeyAndVisible()
+        let window = UIWindow(windowScene: windowScene)
+        
+        // 의존성 주입
+        let calculator = StockCalculatorImpl()
+        
+        let tabBarController = MainTabBarController(calculator: calculator)
+        window.rootViewController = tabBarController
+        window.makeKeyAndVisible()
+        self.window = window
     }
 }
