@@ -17,6 +17,8 @@ public class AdditionalPurchaseViewController: UIViewController {
     private let additionalStockView: CustomStockView
     private let finalStockView: CustomStockView
     private let dividerView = UIView()
+    private let topStackView = UIStackView()
+    private let dividerContainer = UIView()
     private let mainStackView = UIStackView()
     
     public var disposeBag = DisposeBag()
@@ -47,7 +49,8 @@ public class AdditionalPurchaseViewController: UIViewController {
         
         dividerView.configureDivider()
         
-        mainStackView.addArrangedSubviews(holdingStockView, additionalStockView, dividerView, finalStockView)
+        topStackView.configureStackView(distribution: .fillEqually, spacing: 12)
+        
         mainStackView.configureStackView(
             distribution: .fill,
             spacing: 12
@@ -55,21 +58,29 @@ public class AdditionalPurchaseViewController: UIViewController {
     }
     
     private func setUI() {
+        topStackView.addArrangedSubviews(holdingStockView, additionalStockView)
+        dividerContainer.addSubview(dividerView)
+        mainStackView.addArrangedSubviews(topStackView, dividerContainer, finalStockView)
+        
         self.view.addSubviews(mainStackView)
     }
-    
     private func setLayout() {
+        let safeArea = view.safeAreaLayoutGuide
+        
         NSLayoutConstraint.activate([
-            holdingStockView.heightAnchor.constraint(equalToConstant: 200),
-            additionalStockView.heightAnchor.constraint(equalToConstant: 200),
-            finalStockView.heightAnchor.constraint(equalToConstant: 200),
+            mainStackView.topAnchor.constraint(equalTo: safeArea.topAnchor),
+            mainStackView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
+            mainStackView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
+            mainStackView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: -120),
             
-            mainStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            mainStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            mainStackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            topStackView.heightAnchor.constraint(equalTo: finalStockView.heightAnchor, multiplier: 2),
             
-            dividerView.leadingAnchor.constraint(equalTo: mainStackView.leadingAnchor),
-            dividerView.trailingAnchor.constraint(equalTo: mainStackView.trailingAnchor)
+            dividerContainer.heightAnchor.constraint(equalToConstant: 1),
+            
+            dividerView.leadingAnchor.constraint(equalTo: dividerContainer.leadingAnchor, constant: 16),
+            dividerView.trailingAnchor.constraint(equalTo: dividerContainer.trailingAnchor, constant: -16),
+            dividerView.centerYAnchor.constraint(equalTo: dividerContainer.centerYAnchor)
+            
         ])
     }
     
