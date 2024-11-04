@@ -61,7 +61,7 @@ public final class CustomStockView: UIView {
         titleLabel.configureLabel(title: title, ofSize: 20, weight: .bold)
         
         horizontalStackView.addArrangedSubviews(averagePriceView, quantityView)
-        horizontalStackView.configureStackView(axis: .horizontal)
+        horizontalStackView.configureStackView(axis: .horizontal, distribution: .fillEqually, spacing: 20)
         
         verticalStackView.addArrangedSubviews(horizontalStackView, totalPriceView)
         verticalStackView.configureStackView(distribution: .fillEqually, spacing: 10)
@@ -81,9 +81,10 @@ public final class CustomStockView: UIView {
             verticalStackView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
             verticalStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
             verticalStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
-            verticalStackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8)
+            verticalStackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8),
         ])
     }
+    
 }
 
 extension CustomStockView {
@@ -151,6 +152,7 @@ extension CustomStockView {
             })
             .disposed(by: disposeBag)
     }
+    
 }
 
 #if DEBUG

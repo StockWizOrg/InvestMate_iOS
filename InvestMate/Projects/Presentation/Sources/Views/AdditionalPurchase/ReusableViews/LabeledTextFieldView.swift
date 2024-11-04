@@ -53,9 +53,6 @@ class LabeledTextFieldView: UIView {
     
     private func setLayout() {
         NSLayoutConstraint.activate([
-            titleLabel.heightAnchor.constraint(equalToConstant: 14),
-            textField.heightAnchor.constraint(equalToConstant: 44),
-            
             stackView.leadingAnchor.constraint(equalTo: leadingAnchor),
             stackView.trailingAnchor.constraint(equalTo: trailingAnchor),
             stackView.topAnchor.constraint(equalTo: topAnchor),
@@ -66,9 +63,11 @@ class LabeledTextFieldView: UIView {
     private func setDelegate() {
         self.textField.delegate = self
     }
+    
 }
 
 extension LabeledTextFieldView: UITextFieldDelegate {
+    
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
         let currentText = textField.text ?? ""
@@ -105,6 +104,7 @@ extension LabeledTextFieldView: UITextFieldDelegate {
         let characterSet = CharacterSet(charactersIn: string)
         return allowedCharacters.isSuperset(of: characterSet)
     }
+    
 }
 
 extension LabeledTextFieldView {
@@ -196,6 +196,7 @@ extension LabeledTextFieldView {
         
         return text
     }
+    
 }
 
 #if DEBUG

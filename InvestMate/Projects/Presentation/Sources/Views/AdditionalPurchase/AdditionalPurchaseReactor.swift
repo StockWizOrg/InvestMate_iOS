@@ -11,6 +11,7 @@ import ReactorKit
 import RxSwift
 
 public final class AdditionalPurchaseReactor: Reactor {
+    
     public enum Action {
         case updateBoth(holdingPrice: Double?, holdingQuantity: Double?,
                         additionalPrice: Double?, additionalQuantity: Double?)
@@ -96,4 +97,5 @@ public final class AdditionalPurchaseReactor: Reactor {
         
         return newState
     }
+    
 }

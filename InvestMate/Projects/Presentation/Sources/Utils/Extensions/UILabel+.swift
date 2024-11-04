@@ -27,4 +27,5 @@ extension UILabel {
         
         self.attributedText = NSAttributedString(string: title, attributes: attributes)
     }
+    
 }

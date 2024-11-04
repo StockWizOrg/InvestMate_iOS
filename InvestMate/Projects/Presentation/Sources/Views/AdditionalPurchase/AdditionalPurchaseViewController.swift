@@ -48,7 +48,10 @@ public class AdditionalPurchaseViewController: UIViewController {
         dividerView.configureDivider()
         
         mainStackView.addArrangedSubviews(holdingStockView, additionalStockView, dividerView, finalStockView)
-        mainStackView.configureStackView(spacing: 20)
+        mainStackView.configureStackView(
+            distribution: .fill,
+            spacing: 12
+        )
     }
     
     private func setUI() {
@@ -57,17 +60,23 @@ public class AdditionalPurchaseViewController: UIViewController {
     
     private func setLayout() {
         NSLayoutConstraint.activate([
-            dividerView.leadingAnchor.constraint(equalTo:  mainStackView.leadingAnchor, constant: 16),
-            dividerView.trailingAnchor.constraint(equalTo:  mainStackView.trailingAnchor, constant: -16),
+            holdingStockView.heightAnchor.constraint(equalToConstant: 200),
+            additionalStockView.heightAnchor.constraint(equalToConstant: 200),
+            finalStockView.heightAnchor.constraint(equalToConstant: 200),
             
             mainStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             mainStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            mainStackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
+            mainStackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            
+            dividerView.leadingAnchor.constraint(equalTo: mainStackView.leadingAnchor),
+            dividerView.trailingAnchor.constraint(equalTo: mainStackView.trailingAnchor)
         ])
     }
+    
 }
 
 extension AdditionalPurchaseViewController: ReactorView {
+    
     public func bind(reactor: AdditionalPurchaseReactor) {
         bindInput(reactor: reactor)
         bindOutput(reactor: reactor)
@@ -144,11 +153,11 @@ extension AdditionalPurchaseViewController: ReactorView {
             })
             .disposed(by: disposeBag)
     }
+    
 }
 
 #if DEBUG
 import SwiftUI
-import Domain
 
 #Preview {
     AdditionalPurchaseViewController(reactor: AdditionalPurchaseReactor(calculator: StockCalculatorImpl()), calculator: StockCalculatorImpl()).toPreview()

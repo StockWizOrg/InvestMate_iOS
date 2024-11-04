@@ -79,4 +79,5 @@ public final class MainTabBarController: UITabBarController {
         tabBar.scrollEdgeAppearance = appearance
         tabBar.standardAppearance = appearance
     }
+    
 }

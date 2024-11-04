@@ -8,6 +8,7 @@
 import Foundation
 
 extension Double {
+    
     func toFormattedString() -> String {
         if self.truncatingRemainder(dividingBy: 1) == 0 {
             let formatter = NumberFormatter()
@@ -21,4 +22,5 @@ extension Double {
         formatter.maximumFractionDigits = 2
         return formatter.string(from: NSNumber(value: self)) ?? String(self)
     }
+    
 }
