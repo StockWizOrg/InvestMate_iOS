@@ -17,11 +17,12 @@ extension UIStackView {
     }
     
     func configureStackView(axis: NSLayoutConstraint.Axis = .vertical,
+                            alignment: UIStackView.Alignment = .fill ,
                             distribution: UIStackView.Distribution = .fillProportionally,
                             spacing: CGFloat = 4) {
         
         self.axis = axis
-        self.alignment = .fill
+        self.alignment = alignment
         self.distribution = distribution
         self.spacing = spacing
     }
