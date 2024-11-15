@@ -58,7 +58,7 @@ public final class CustomStockView: UIView {
     private func setStyle(title: String) {
         self.backgroundColor = .systemGray6
         
-        titleLabel.configureLabel(title: title, ofSize: 20, weight: .bold)
+        titleLabel.configureTitleLabel(title: title, ofSize: 20, weight: .bold)
         
         horizontalStackView.addArrangedSubviews(averagePriceView, quantityView)
         horizontalStackView.configureStackView(axis: .horizontal, distribution: .fillEqually, spacing: 20)
