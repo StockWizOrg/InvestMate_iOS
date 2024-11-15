@@ -9,7 +9,7 @@ import UIKit
 
 extension UILabel {
     
-    func configureLabel(title: String,
+    func configureTitleLabel(title: String,
                         ofSize: CGFloat,
                         weight: UIFont.Weight,
                         indent: CGFloat = 0) {
@@ -28,4 +28,11 @@ extension UILabel {
         self.attributedText = NSAttributedString(string: title, attributes: attributes)
     }
     
+    func configureNumericLabel() {
+        self.font = .systemFont(ofSize: 16, weight: .bold)
+        self.backgroundColor = .white
+        self.layer.cornerRadius = 8
+        self.clipsToBounds = true
+    }
+
 }
