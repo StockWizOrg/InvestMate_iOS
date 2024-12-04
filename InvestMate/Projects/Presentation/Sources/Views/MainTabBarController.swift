@@ -57,14 +57,11 @@ public final class MainTabBarController: UITabBarController {
     private func setupTabBarAppearance() {
         let appearance = UITabBarAppearance()
         
-        // 탭바 배경색 설정
-        appearance.backgroundColor = .systemGray6  // 또는 원하는 색상
+        appearance.backgroundColor = .systemGray6
         
-        // 그림자 효과 추가
         appearance.shadowColor = .gray.withAlphaComponent(0.3)
         appearance.shadowImage = UIImage()
         
-        // 선택/미선택 상태의 아이템 색상 설정
         let normalAttributes: [NSAttributedString.Key: Any] = [
             .foregroundColor: UIColor.gray
         ]
@@ -75,8 +72,18 @@ public final class MainTabBarController: UITabBarController {
         appearance.stackedLayoutAppearance.normal.titleTextAttributes = normalAttributes
         appearance.stackedLayoutAppearance.selected.titleTextAttributes = selectedAttributes
         
-        // iOS 15 이상에서 필요한 설정
         tabBar.scrollEdgeAppearance = appearance
-        tabBar.standardAppearance = appearance
     }
+    
 }
+
+#if DEBUG
+import SwiftUI
+
+#Preview {
+    let mock = StockCalculatorImpl()
+    
+    MainTabBarController(calculator: mock).toPreview()
+}
+
+#endif

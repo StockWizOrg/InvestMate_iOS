@@ -15,8 +15,10 @@ public class AdditionalPurchaseViewController: UIViewController {
     
     private let holdingStockView: CustomStockView
     private let additionalStockView: CustomStockView
-    private let finalStockView: CustomStockView
+    private let finalStockView = StockResultView()
     private let dividerView = UIView()
+    private let topStackView = UIStackView()
+    private let dividerContainer = UIView()
     private let mainStackView = UIStackView()
     
     public var disposeBag = DisposeBag()
@@ -24,7 +26,6 @@ public class AdditionalPurchaseViewController: UIViewController {
     public init(reactor: AdditionalPurchaseReactor, calculator: StockCalculatorUseCase) {
         self.holdingStockView = CustomStockView(title: "현재 보유", calculator: calculator)
         self.additionalStockView = CustomStockView(title: "추가 매수", calculator: calculator)
-        self.finalStockView = CustomStockView(title: "최종 보유", isReadOnly: true, calculator: calculator)
         super.init(nibName: nil, bundle: nil)
         self.reactor = reactor
     }
@@ -43,31 +44,49 @@ public class AdditionalPurchaseViewController: UIViewController {
     }
     
     private func setStyle() {
+        self.title = "추가 매수"
         self.view.backgroundColor = .systemGray6
         
         dividerView.configureDivider()
         
-        mainStackView.addArrangedSubviews(holdingStockView, additionalStockView, dividerView, finalStockView)
-        mainStackView.configureStackView(spacing: 20)
+        topStackView.configureStackView(distribution: .fillEqually, spacing: 12)
+        
+        mainStackView.configureStackView(
+            distribution: .fill,
+            spacing: 12
+        )
     }
     
     private func setUI() {
+        topStackView.addArrangedSubviews(holdingStockView, additionalStockView)
+        dividerContainer.addSubview(dividerView)
+        mainStackView.addArrangedSubviews(topStackView, dividerContainer, finalStockView)
+        
         self.view.addSubviews(mainStackView)
     }
-    
     private func setLayout() {
+        let safeArea = view.safeAreaLayoutGuide
+        
         NSLayoutConstraint.activate([
-            dividerView.leadingAnchor.constraint(equalTo:  mainStackView.leadingAnchor, constant: 16),
-            dividerView.trailingAnchor.constraint(equalTo:  mainStackView.trailingAnchor, constant: -16),
+            mainStackView.topAnchor.constraint(equalTo: safeArea.topAnchor),
+            mainStackView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
+            mainStackView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
             
-            mainStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            mainStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            mainStackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
+            topStackView.heightAnchor.constraint(equalTo: finalStockView.heightAnchor, multiplier: 2),
+            
+            dividerContainer.heightAnchor.constraint(equalToConstant: 1),
+            
+            dividerView.leadingAnchor.constraint(equalTo: dividerContainer.leadingAnchor, constant: 16),
+            dividerView.trailingAnchor.constraint(equalTo: dividerContainer.trailingAnchor, constant: -16),
+            dividerView.centerYAnchor.constraint(equalTo: dividerContainer.centerYAnchor)
+            
         ])
     }
+    
 }
 
 extension AdditionalPurchaseViewController: ReactorView {
+    
     public func bind(reactor: AdditionalPurchaseReactor) {
         bindInput(reactor: reactor)
         bindOutput(reactor: reactor)
@@ -144,11 +163,11 @@ extension AdditionalPurchaseViewController: ReactorView {
             })
             .disposed(by: disposeBag)
     }
+    
 }
 
 #if DEBUG
 import SwiftUI
-import Domain
 
 #Preview {
     AdditionalPurchaseViewController(reactor: AdditionalPurchaseReactor(calculator: StockCalculatorImpl()), calculator: StockCalculatorImpl()).toPreview()

@@ -8,6 +8,7 @@
 import Foundation
 
 extension String {
+    
     func toDouble() -> Double? {
         let cleanText = self.replacingOccurrences(of: ",", with: "")
         
@@ -17,4 +18,5 @@ extension String {
             NSDecimalNumber(decimal: $0).doubleValue
         }
     }
+    
 }

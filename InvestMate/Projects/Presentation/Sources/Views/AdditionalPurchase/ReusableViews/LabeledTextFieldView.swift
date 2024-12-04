@@ -23,10 +23,10 @@ class LabeledTextFieldView: UIView {
         return formattedTextRelay.asObservable()
     }
     
-    init(title: String, placeholder: String) {
+    init(title: String, ofSize: Int = 14, placeholder: String) {
         super.init(frame: .zero)
         
-        setStyle(title: title, placeholder: placeholder)
+        setStyle(title: title, ofSize: ofSize, placeholder: placeholder)
         setUI()
         setLayout()
         setupBindings()
@@ -37,8 +37,13 @@ class LabeledTextFieldView: UIView {
         super.init(coder: coder)
     }
     
-    private func setStyle(title: String, placeholder: String) {
-        titleLabel.configureLabel(title: title, ofSize: 14, weight: .semibold, indent: 8)
+    private func setStyle(title: String, ofSize: Int, placeholder: String) {
+        
+        if ofSize == 14 {
+            titleLabel.configureTitleLabel(title: title, ofSize: 14, weight: .semibold, indent: 8)
+        } else if ofSize == 20 {
+            titleLabel.configureTitleLabel(title: title, ofSize: 20, weight: .bold, indent: 8)
+        }
         
         textField.configureNumericInputField(placeholder: placeholder, fontSize: 14, weight: .bold, padding: 10)
         textField.keyboardType = .decimalPad
@@ -53,7 +58,6 @@ class LabeledTextFieldView: UIView {
     
     private func setLayout() {
         NSLayoutConstraint.activate([
-            titleLabel.heightAnchor.constraint(equalToConstant: 14),
             textField.heightAnchor.constraint(equalToConstant: 44),
             
             stackView.leadingAnchor.constraint(equalTo: leadingAnchor),
@@ -66,9 +70,11 @@ class LabeledTextFieldView: UIView {
     private func setDelegate() {
         self.textField.delegate = self
     }
+    
 }
 
 extension LabeledTextFieldView: UITextFieldDelegate {
+    
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
         let currentText = textField.text ?? ""
@@ -105,6 +111,7 @@ extension LabeledTextFieldView: UITextFieldDelegate {
         let characterSet = CharacterSet(charactersIn: string)
         return allowedCharacters.isSuperset(of: characterSet)
     }
+    
 }
 
 extension LabeledTextFieldView {
@@ -196,6 +203,7 @@ extension LabeledTextFieldView {
         
         return text
     }
+    
 }
 
 #if DEBUG
