@@ -33,7 +33,7 @@ public final class CustomStockView: UIView {
         return totalPriceView.textObservable
     }
     
-    public init(title: String, isReadOnly: Bool = false, calculator: StockCalculatorUseCase) {
+    public init(title: String, calculator: StockCalculatorUseCase) {
         self.calculator = calculator
         super.init(frame: .zero)
         
@@ -41,18 +41,11 @@ public final class CustomStockView: UIView {
         setStyle(title: title)
         setUI()
         setLayout()
-        setReadOnly(isReadOnly)
         setupCalculation()
     }
     
     public required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    private func setReadOnly(_ isReadOnly: Bool) {
-        averagePriceView.setEditable(!isReadOnly)
-        quantityView.setEditable(!isReadOnly)
-        totalPriceView.setEditable(!isReadOnly)
     }
     
     private func setStyle(title: String) {

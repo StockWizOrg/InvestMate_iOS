@@ -7,17 +7,21 @@
 
 import UIKit
 
-class ScrollableLabel: UIView {
+final class ScrollableLabel: UIView {
 
+    private var placeholder: String
+    
     private let scrollView = UIScrollView()
     private let label = UILabel()
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    
+    init(placeholder: String = "금액") {
+        self.placeholder = placeholder
+        super.init(frame: .zero)
         
-        setStyle()
-        setUI()
-        setLayout()
+        self.setStyle()
+        self.setUI()
+        self.setLayout()
     }
     
     required init?(coder: NSCoder) {
@@ -31,7 +35,8 @@ class ScrollableLabel: UIView {
         
         label.configureNumericLabel()
         label.backgroundColor = .clear
-        label.text = "0"
+        label.text = placeholder
+        label.font = .systemFont(ofSize: 14, weight: .bold)
         label.textColor = .placeholderText
     }
     
@@ -60,7 +65,7 @@ class ScrollableLabel: UIView {
             label.text = text
             label.textColor = .black
         } else {
-            label.text = "0"
+            label.text = placeholder
             label.textColor = .gray
         }
         

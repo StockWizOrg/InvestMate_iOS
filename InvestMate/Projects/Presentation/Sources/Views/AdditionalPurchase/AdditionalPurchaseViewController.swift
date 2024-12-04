@@ -15,7 +15,7 @@ public class AdditionalPurchaseViewController: UIViewController {
     
     private let holdingStockView: CustomStockView
     private let additionalStockView: CustomStockView
-    private let finalStockView: CustomStockView
+    private let finalStockView = StockResultView()
     private let dividerView = UIView()
     private let topStackView = UIStackView()
     private let dividerContainer = UIView()
@@ -26,7 +26,6 @@ public class AdditionalPurchaseViewController: UIViewController {
     public init(reactor: AdditionalPurchaseReactor, calculator: StockCalculatorUseCase) {
         self.holdingStockView = CustomStockView(title: "현재 보유", calculator: calculator)
         self.additionalStockView = CustomStockView(title: "추가 매수", calculator: calculator)
-        self.finalStockView = CustomStockView(title: "최종 보유", isReadOnly: true, calculator: calculator)
         super.init(nibName: nil, bundle: nil)
         self.reactor = reactor
     }
@@ -45,6 +44,7 @@ public class AdditionalPurchaseViewController: UIViewController {
     }
     
     private func setStyle() {
+        self.title = "추가 매수"
         self.view.backgroundColor = .systemGray6
         
         dividerView.configureDivider()
@@ -71,7 +71,6 @@ public class AdditionalPurchaseViewController: UIViewController {
             mainStackView.topAnchor.constraint(equalTo: safeArea.topAnchor),
             mainStackView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
             mainStackView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
-            mainStackView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: -120),
             
             topStackView.heightAnchor.constraint(equalTo: finalStockView.heightAnchor, multiplier: 2),
             
