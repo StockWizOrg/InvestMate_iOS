@@ -6,14 +6,29 @@
 //
 
 import UIKit
+import Domain
+
+import ReactorKit
+import RxSwift
 
 public class ProfitViewController: UIViewController {
+    
+    public var disposeBag = DisposeBag()
     
     private let averagePriceView = LabeledTextFieldView(title: "매수단가", ofSize: 20, placeholder: "금액")
     private let quantityView = LabeledTextFieldView(title: "매도수량", ofSize: 20, placeholder: "수량")
     private let salePriceView = LabeledTextFieldView(title: "매도단가", ofSize: 20, placeholder: "금액")
     private let dividerView = UIView()
     private let profitResultView = ProfitResultView()
+    
+    public init(reactor: ProfitReactor) {
+        super.init(nibName: nil, bundle: nil)
+        self.reactor = reactor
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     public override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,6 +39,8 @@ public class ProfitViewController: UIViewController {
     }
     
     private func setStyle() {
+        self.title = "수익"
+        
         self.view.backgroundColor = .systemGray6
         
         dividerView.configureDivider()
@@ -68,10 +85,68 @@ public class ProfitViewController: UIViewController {
     
 }
 
+extension ProfitViewController: ReactorView {
+    
+    public func bind(reactor: ProfitReactor) {
+        bindInput(reactor: reactor)
+        bindOutput(reactor: reactor)
+    }
+    
+    private func bindInput(reactor: ProfitReactor) {
+        Observable.combineLatest(
+            averagePriceView.textObservable,
+            quantityView.textObservable,
+            salePriceView.textObservable
+        )
+        .map { avgPrice, qty, salePrice in
+            let cleanAvgPrice = avgPrice?.replacingOccurrences(of: ",", with: "")
+            let cleanQty = qty?.replacingOccurrences(of: ",", with: "")
+            let cleanSalePrice = salePrice?.replacingOccurrences(of: ",", with: "")
+            
+            return ProfitReactor.Action.update(
+                averagePrice: Double(cleanAvgPrice ?? ""),
+                quantity: Double(cleanQty ?? ""),
+                salePrice: Double(cleanSalePrice ?? "")
+            )
+        }
+        .bind(to: reactor.action)
+        .disposed(by: disposeBag)
+    }
+    
+    private func bindOutput(reactor: ProfitReactor) {
+        reactor.state.map(\.profitInfo)
+            .subscribe(onNext: { [weak self] info in
+                // 수익률 업데이트
+                if let rate = info.profitRate {
+                    self?.profitResultView.updateProfitRate(rate: rate)
+                }
+                
+                // 총 손익 업데이트
+                self?.profitResultView.setProfitAmount(
+                    info.totalProfit?.toFormattedString() ?? ""
+                )
+                
+                // 매수금액 업데이트
+                self?.profitResultView.setPurchaseAmount(
+                    info.purchaseAmount?.toFormattedString() ?? ""
+                )
+                
+                // 매도금액 업데이트
+                self?.profitResultView.setSaleAmount(
+                    info.saleAmount?.toFormattedString() ?? ""
+                )
+            })
+            .disposed(by: disposeBag)
+    }
+    
+}
+
 #if DEBUG
 import SwiftUI
 
 #Preview {
-    ProfitViewController().toPreview()
+    ProfitViewController(
+        reactor: ProfitReactor(calculator: ProfitCalculatorImpl())
+    ).toPreview()
 }
 #endif

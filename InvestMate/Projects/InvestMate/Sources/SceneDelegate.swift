@@ -22,8 +22,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         // 의존성 주입
         let calculator = StockCalculatorImpl()
+        let profitCalculator = ProfitCalculatorImpl()
         
-        let tabBarController = MainTabBarController(calculator: calculator)
+        let tabBarController = MainTabBarController(
+            calculator: calculator,
+            profitCalculator: profitCalculator
+        )
         window.rootViewController = tabBarController
         window.makeKeyAndVisible()
         self.window = window

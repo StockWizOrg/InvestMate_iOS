@@ -12,9 +12,14 @@ import Domain
 public final class MainTabBarController: UITabBarController {
     
     private let calculator: StockCalculatorUseCase
+    private let profitCalculator: ProfitCalculatorUseCase
     
-    public init(calculator: StockCalculatorUseCase) {
+    public init(
+        calculator: StockCalculatorUseCase,
+        profitCalculator: ProfitCalculatorUseCase
+    ) {
         self.calculator = calculator
+        self.profitCalculator = profitCalculator
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -43,7 +48,7 @@ public final class MainTabBarController: UITabBarController {
         )
         
         // 수익 계산 탭
-        let profitVC = ProfitViewController()
+        let profitVC = ProfitViewController(reactor: ProfitReactor(calculator: profitCalculator))
         let profitNav = UINavigationController(rootViewController: profitVC)
         profitVC.tabBarItem = UITabBarItem(
             title: "수익 계산",
@@ -82,8 +87,9 @@ import SwiftUI
 
 #Preview {
     let mock = StockCalculatorImpl()
+    let secondMock = ProfitCalculatorImpl()
     
-    MainTabBarController(calculator: mock).toPreview()
+    MainTabBarController(calculator: mock, profitCalculator: secondMock).toPreview()
 }
 
 #endif
