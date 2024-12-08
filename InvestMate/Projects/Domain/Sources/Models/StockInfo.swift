@@ -8,6 +8,7 @@
 import Foundation
 
 public struct StockInfo: Equatable {
+    
     public let averagePrice: Double?
     public let quantity: Double?
     public let totalPrice: Double?
@@ -18,9 +19,4 @@ public struct StockInfo: Equatable {
         self.totalPrice = totalPrice
     }
     
-    public static func == (lhs: StockInfo, rhs: StockInfo) -> Bool {
-        return lhs.averagePrice == rhs.averagePrice &&
-               lhs.quantity == rhs.quantity &&
-               lhs.totalPrice == rhs.totalPrice
-    }
 }
