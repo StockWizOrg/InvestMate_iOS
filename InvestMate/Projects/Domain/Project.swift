@@ -20,6 +20,18 @@ let project = Project(
             dependencies: [
                 .external(name: "RxSwift")
             ]
+        ),
+        
+        .target(
+            name: "DomainTests",
+            destinations: .iOS,
+            product: .unitTests,
+            bundleId: "io.tuist.DomainTests",
+            deploymentTargets: .iOS("17.5"),
+            sources: ["Tests/**"],
+            dependencies: [
+                .target(name: "Domain")
+            ]
         )
     ]
 )
