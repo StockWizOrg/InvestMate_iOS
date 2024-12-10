@@ -42,6 +42,8 @@ public final class AdditionalPurchaseReactor: Reactor {
     public func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case let .updateBoth(holdingPrice, holdingQuantity, additionalPrice, additionalQuantity):
+            
+            // 1. 보유 주식 정보 생성
             let holding = StockInfo(
                 averagePrice: holdingPrice,
                 quantity: holdingQuantity,
@@ -49,6 +51,7 @@ public final class AdditionalPurchaseReactor: Reactor {
                 holdingPrice! * holdingQuantity! : nil
             )
             
+            // 2. 추가 매수 정보 생성
             let additional = StockInfo(
                 averagePrice: additionalPrice,
                 quantity: additionalQuantity,
@@ -56,6 +59,7 @@ public final class AdditionalPurchaseReactor: Reactor {
                 additionalPrice! * additionalQuantity! : nil
             )
             
+            // 3. 보유와 추가 정보가 모두 유효할 때 실행
             if let hp = holdingPrice, let hq = holdingQuantity,
                let ap = additionalPrice, let aq = additionalQuantity {
                 return calculator.calculateFinal(

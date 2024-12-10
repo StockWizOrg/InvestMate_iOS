@@ -100,8 +100,6 @@ extension StockResultView {
             titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
             titleLabel.heightAnchor.constraint(equalToConstant: 24),
             
-            averagePriceTitle.widthAnchor.constraint(equalToConstant: 70),
-            quantityTitle.widthAnchor.constraint(equalToConstant: 40),
             averagePriceLabel.heightAnchor.constraint(equalToConstant: 44),
             quantityLabel.heightAnchor.constraint(equalToConstant: 44),
             totalPriceLabel.heightAnchor.constraint(equalToConstant: 44),
