@@ -23,10 +23,10 @@ let project = Project(
         ),
         
         .target(
-            name: "DomainTests",
+            name: "StockTests",
             destinations: .iOS,
             product: .unitTests,
-            bundleId: "io.tuist.DomainTests",
+            bundleId: "io.tuist.StockTests",
             deploymentTargets: .iOS("17.5"),
             sources: ["Tests/**"],
             dependencies: [
