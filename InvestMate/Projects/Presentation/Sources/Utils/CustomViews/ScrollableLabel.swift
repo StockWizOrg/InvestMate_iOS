@@ -29,8 +29,9 @@ final class ScrollableLabel: UIView {
     }
     
     private func setStyle() {
-        scrollView.backgroundColor = .systemBackground
-        scrollView.alpha = 0.6
+        backgroundColor = .systemBackground
+        alpha = 0.6
+        
         scrollView.showsHorizontalScrollIndicator = false
         
         label.configureNumericLabel()
@@ -70,6 +71,14 @@ final class ScrollableLabel: UIView {
         }
         
         scrollView.contentSize = label.intrinsicContentSize
+    }
+    
+}
+
+extension ScrollableLabel {
+    
+    func configureRightAlignment() {
+        scrollView.contentAlignmentPoint.x = 1
     }
     
 }
