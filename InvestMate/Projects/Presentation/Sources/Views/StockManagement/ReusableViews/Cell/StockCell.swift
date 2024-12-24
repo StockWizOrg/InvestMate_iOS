@@ -9,9 +9,16 @@ import UIKit
 
 import Domain
 
+protocol StockCellDelegate: AnyObject {
+    func menuButtonTapped(_ cell: StockCell, stock: Stock)
+}
+
 class StockCell: UITableViewCell {
     
     static let identifier = "StockTableViewCell"
+    
+    weak var delegate: StockCellDelegate?
+    private var stock: Stock?
     
     private let stockNameLabel = UILabel()
     private let dividerView = UIView()
@@ -26,6 +33,7 @@ class StockCell: UITableViewCell {
         setStyle()
         setUI()
         setLayout()
+        setAction()
     }
     
     required init?(coder: NSCoder) {
@@ -94,10 +102,24 @@ class StockCell: UITableViewCell {
         ])
     }
     
+    private func setAction() {
+        let menuButtonTapped = UIAction { [weak self] _ in
+            guard let self = self,
+                  let stock = self.stock else { return }
+            
+            delegate?.menuButtonTapped(self, stock: stock)
+        }
+        
+        menuButton.addAction(menuButtonTapped, for: .touchUpInside)
+    }
+    
     func configure(with stock: Stock) {
+        self.stock = stock
+        
         stockNameLabel.text = stock.name
         quantityContentView.setValue("\(stock.quantity)")
         averagePriceContentView.setValue("\(stock.averagePrice)")
+        totalContentView.setValue("\(stock.totalPrice)")
     }
 }
 
