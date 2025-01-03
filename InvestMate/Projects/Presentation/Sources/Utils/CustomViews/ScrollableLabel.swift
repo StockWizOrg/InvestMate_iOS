@@ -70,7 +70,10 @@ final class ScrollableLabel: UIView {
             label.textColor = .gray
         }
         
-        scrollView.contentSize = label.intrinsicContentSize
+        scrollView.contentSize = CGSize(
+            width: label.intrinsicContentSize.width + 36,
+            height: bounds.height
+        )
     }
     
 }
