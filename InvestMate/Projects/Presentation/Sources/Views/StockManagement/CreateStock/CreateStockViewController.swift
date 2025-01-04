@@ -181,10 +181,10 @@ extension CreateStockViewController: ReactorView {
             .bind(to: confirmButton.rx.isEnabled)
             .disposed(by: disposeBag)
         
-        reactor.state.map(\.shouldDismiss)
+        reactor.state.map(\.isComplete)
             .filter { $0 }
             .bind { [weak self] _ in
-                self?.dismiss(animated: true)
+                self?.navigationController?.popViewController(animated: true)
             }
             .disposed(by: disposeBag)
     }
@@ -194,11 +194,18 @@ extension CreateStockViewController: ReactorView {
 #if DEBUG
 import SwiftUI
 
+class MockStockListRefreshDelegate: StockListRefreshDelegate {
+    func refreshStockList() {
+        print("Mock refreshStockList called.")
+    }
+}
+
 #Preview {
     CreateStockViewController(
         reactor: CreateStockReactor(
             stockManager: MockStockManagement(),
-            calculator: StockCalculatorImpl()
+            calculator: StockCalculatorImpl(),
+            refreshDelegate: MockStockListRefreshDelegate()
         )
     ).toPreview()
     

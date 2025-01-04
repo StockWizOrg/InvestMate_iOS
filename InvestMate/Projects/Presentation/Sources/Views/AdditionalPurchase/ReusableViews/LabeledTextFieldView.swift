@@ -8,7 +8,7 @@
 import UIKit
 
 import RxSwift
-import RxCocoa
+import RxRelay
 
 class LabeledTextFieldView: UIView {
     
