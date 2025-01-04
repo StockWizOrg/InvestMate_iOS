@@ -24,12 +24,35 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let calculator = StockCalculatorImpl()
         let profitCalculator = ProfitCalculatorImpl()
         
-        let tabBarController = MainTabBarController(
-            calculator: calculator,
-            profitCalculator: profitCalculator
-        )
-        window.rootViewController = tabBarController
-        window.makeKeyAndVisible()
-        self.window = window
+        
+        // repository 생성 시 에러 처리
+        do {
+            let repository = try StockRepositoryImpl()
+            let stockManager = StockManagementImpl(
+                repository: repository,
+                calculator: calculator
+            )
+            
+            let tabBarController = MainTabBarController(
+                calculator: calculator,
+                profitCalculator: profitCalculator,
+                stockManager: stockManager
+            )
+            
+            window.rootViewController = tabBarController
+            window.makeKeyAndVisible()
+            self.window = window
+            
+        } catch {
+            // 에러 처리
+            print("Repository 초기화 실패: \(error)")
+            // 적절한 에러 처리 UI 표시
+            let errorVC = UIViewController()
+            errorVC.view.backgroundColor = .systemBackground
+            window.rootViewController = errorVC
+            window.makeKeyAndVisible()
+            self.window = window
+        }
     }
+    
 }

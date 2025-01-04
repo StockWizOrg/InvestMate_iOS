@@ -7,7 +7,14 @@
 
 import UIKit
 
+import RxSwift
+import RxCocoa
+
 class EmptyStateView: UIView {
+    
+    var addButtonTap: ControlEvent<Void> {
+        return addButton.rx.tap
+    }
 
     private let messageLabel = UILabel()
     private let addButton = UIButton()
