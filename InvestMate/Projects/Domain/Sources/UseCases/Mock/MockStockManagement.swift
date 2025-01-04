@@ -14,7 +14,17 @@ public final class MockStockManagement: StockManagementUseCase {
     public init() {}
     
     public func getAllStocks() -> Observable<[Stock]> {
-        return .just([])
+        return .just(
+            [
+                Stock(
+                    id: UUID(),
+                    name: "삼성전자",
+                    averagePrice: 70000,
+                    quantity: 100,
+                    totalPrice: 7000000
+                )
+            ]
+        )
     }
     
     public func addStock(name: String, averagePrice: Double, quantity: Double) -> Observable<Void> {

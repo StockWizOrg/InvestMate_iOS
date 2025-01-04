@@ -32,7 +32,7 @@ public struct Stock: Equatable, Identifiable {
     public static let sample = Stock(
         id: UUID(),
         name: "Apple",
-        averagePrice: 145.5,
+        averagePrice: 5,
         quantity: 10.0,
         totalPrice: 1455.0
     )
