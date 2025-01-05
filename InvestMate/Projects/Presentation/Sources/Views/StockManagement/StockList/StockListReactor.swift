@@ -41,7 +41,7 @@ public final class StockListReactor: Reactor {
         switch action {
         case .refresh:
             return stockManager.getAllStocks()
-                .do(onNext: { stocks in print("Fetched stocks:", stocks) })
+                .do(onNext: { stocks in stocks.debugLog(label: "1️⃣1️⃣Fetched stocks") })
                 .map { .setStocks($0) }
             
         case let .deleteStock(id):
@@ -59,7 +59,7 @@ public final class StockListReactor: Reactor {
         
         switch mutation {
         case let .setStocks(stocks):
-            print("Reducing with stocks:", stocks)
+            stocks.debugLog(label: "2️⃣2️⃣Reducing with stocks")
             newState.stocks = stocks
         }
         

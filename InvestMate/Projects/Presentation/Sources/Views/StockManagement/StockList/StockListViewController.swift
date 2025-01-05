@@ -155,7 +155,7 @@ extension StockListViewController: ReactorView {
         
         stocks
             .subscribe(onNext: { updatedStocks in
-                print("Updated stocks:", updatedStocks) // 현재 stocks 데이터 출력
+                updatedStocks.debugLog(label: "Updated stocks")
             })
             .disposed(by: disposeBag)
     }

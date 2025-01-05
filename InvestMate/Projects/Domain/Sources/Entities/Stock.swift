@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Stock: Equatable, Identifiable {
+public struct Stock: Encodable, Equatable, Identifiable {
     
     public let id: UUID
     public let name: String
