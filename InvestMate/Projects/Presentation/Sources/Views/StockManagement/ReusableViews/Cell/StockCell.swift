@@ -76,8 +76,8 @@ public final class StockCell: UITableViewCell {
             stockNameLabel,
             menuButton,
             dividerView,
-            quantityContentView,
             averagePriceContentView,
+            quantityContentView,
             totalContentView
         )
     }
@@ -105,17 +105,17 @@ public final class StockCell: UITableViewCell {
             dividerView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -16),
             dividerView.heightAnchor.constraint(equalToConstant: 1),
             
-            quantityContentView.topAnchor.constraint(equalTo: dividerView.bottomAnchor, constant: 16),
-            quantityContentView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 16),
-            quantityContentView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -16),
-            quantityContentView.heightAnchor.constraint(equalToConstant: 44),
-            
-            averagePriceContentView.topAnchor.constraint(equalTo: quantityContentView.bottomAnchor, constant: 8),
-            averagePriceContentView.leadingAnchor.constraint(equalTo: quantityContentView.leadingAnchor),
-            averagePriceContentView.trailingAnchor.constraint(equalTo: quantityContentView.trailingAnchor),
+            averagePriceContentView.topAnchor.constraint(equalTo: dividerView.bottomAnchor, constant: 16),
+            averagePriceContentView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 16),
+            averagePriceContentView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -16),
             averagePriceContentView.heightAnchor.constraint(equalToConstant: 44),
             
-            totalContentView.topAnchor.constraint(equalTo: averagePriceContentView.bottomAnchor, constant: 8),
+            quantityContentView.topAnchor.constraint(equalTo: averagePriceContentView.bottomAnchor, constant: 8),
+            quantityContentView.leadingAnchor.constraint(equalTo: averagePriceContentView.leadingAnchor),
+            quantityContentView.trailingAnchor.constraint(equalTo: averagePriceContentView.trailingAnchor),
+            quantityContentView.heightAnchor.constraint(equalToConstant: 44),
+            
+            totalContentView.topAnchor.constraint(equalTo: quantityContentView.bottomAnchor, constant: 8),
             totalContentView.leadingAnchor.constraint(equalTo: quantityContentView.leadingAnchor),
             totalContentView.trailingAnchor.constraint(equalTo: quantityContentView.trailingAnchor),
             totalContentView.heightAnchor.constraint(equalToConstant: 44),
@@ -144,7 +144,7 @@ import SwiftUI
     return ZStack {
         Color.green
         view.toPreview()
-            .frame(width: 330, height: 240)
+            .frame(width: 330, height: 300)
     }
 }
 
