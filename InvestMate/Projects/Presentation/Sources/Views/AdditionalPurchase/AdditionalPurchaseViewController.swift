@@ -64,6 +64,7 @@ public class AdditionalPurchaseViewController: UIViewController {
         
         self.view.addSubviews(mainStackView)
     }
+    
     private func setLayout() {
         let safeArea = view.safeAreaLayoutGuide
         

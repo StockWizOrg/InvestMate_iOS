@@ -9,7 +9,6 @@ import UIKit
 import Domain
 
 import RxSwift
-import RxCocoa
 
 public final class CustomStockView: UIView {
     

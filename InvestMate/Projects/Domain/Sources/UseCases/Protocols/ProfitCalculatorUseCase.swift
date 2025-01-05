@@ -1,5 +1,5 @@
 //
-//  ProfitCalculatorUsecase.swift
+//  ProfitCalculatorUseCase.swift
 //  Domain
 //
 //  Created by 조호근 on 12/6/24.

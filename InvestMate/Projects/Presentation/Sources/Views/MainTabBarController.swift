@@ -13,13 +13,16 @@ public final class MainTabBarController: UITabBarController {
     
     private let calculator: StockCalculatorUseCase
     private let profitCalculator: ProfitCalculatorUseCase
+    private let stockManager: StockManagementUseCase
     
     public init(
         calculator: StockCalculatorUseCase,
-        profitCalculator: ProfitCalculatorUseCase
+        profitCalculator: ProfitCalculatorUseCase,
+        stockManager: StockManagementUseCase
     ) {
         self.calculator = calculator
         self.profitCalculator = profitCalculator
+        self.stockManager = stockManager
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -56,7 +59,19 @@ public final class MainTabBarController: UITabBarController {
             selectedImage: UIImage(systemName: "chart.line.uptrend.xyaxis.circle.fill")
         )
         
-        viewControllers = [additionalPurchaseNav, profitNav]
+        // 종목 관리 탭
+        let stockListVC = StockListViewController(
+            reactor: StockListReactor(stockManager: stockManager),
+            calculator: calculator
+        )
+        let stockListNav = UINavigationController(rootViewController: stockListVC)
+        stockListNav.tabBarItem = UITabBarItem(
+            title: "종목 관리",
+            image: UIImage(systemName: "list.bullet"),
+            selectedImage: UIImage(systemName: "list.bullet.circle.fill")
+        )
+        
+        viewControllers = [additionalPurchaseNav, profitNav, stockListNav]
     }
     
     private func setupTabBarAppearance() {
@@ -88,8 +103,13 @@ import SwiftUI
 #Preview {
     let mock = StockCalculatorImpl()
     let secondMock = ProfitCalculatorImpl()
+    let thirdMock = MockStockManagement()
     
-    MainTabBarController(calculator: mock, profitCalculator: secondMock).toPreview()
+    MainTabBarController(
+        calculator: mock,
+        profitCalculator: secondMock,
+        stockManager: thirdMock
+    ).toPreview()
 }
 
 #endif
