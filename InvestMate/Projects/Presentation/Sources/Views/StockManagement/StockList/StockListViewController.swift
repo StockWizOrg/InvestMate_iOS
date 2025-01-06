@@ -175,11 +175,12 @@ extension StockListViewController: StockListRefreshDelegate {
         let createStockReactor = CreateStockReactor(
             stockManager: reactor.getStockManager(),
             calculator: calculator,
-            mode: stock.map { .edit($0) } ?? .create,
+            mode: mode,
             refreshDelegate: self
         )
         
-        let createStockVC = CreateStockViewController(reactor: createStockReactor)
+        let createStockVC = CreateStockViewController(reactor: createStockReactor,
+                                                      mode: mode)
         navigationController?.pushViewController(createStockVC, animated: true)
     }
     

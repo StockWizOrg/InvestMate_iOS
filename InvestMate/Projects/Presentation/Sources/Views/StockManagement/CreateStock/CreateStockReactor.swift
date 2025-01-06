@@ -5,6 +5,7 @@
 //  Created by 조호근 on 12/24/24.
 //
 
+import Foundation
 import Domain
 
 import ReactorKit
@@ -18,7 +19,7 @@ public final class CreateStockReactor: Reactor {
     
     private weak var refreshDelegate: StockListRefreshDelegate?
     
-    enum Mode {
+    enum Mode: Equatable {
         case create
         case edit(Stock)
     }
@@ -47,12 +48,14 @@ public final class CreateStockReactor: Reactor {
         var totalPrice: Double?
         var isValid: Bool = false
         var isComplete: Bool = false
+        var originalStock: Stock?
     }
     
     public let initialState: State
     private let stockManager: StockManagementUseCase
     private let calculator: StockCalculatorUseCase
     private let mode: Mode
+    private var editingStockId: UUID?
     
     init(
         stockManager: StockManagementUseCase,
@@ -60,14 +63,22 @@ public final class CreateStockReactor: Reactor {
         mode: Mode = .create,
         refreshDelegate: StockListRefreshDelegate
     ) {
-        self.initialState = State()
         self.stockManager = stockManager
         self.calculator = calculator
         self.mode = mode
         self.refreshDelegate = refreshDelegate
         
         if case .edit(let stock) = mode {
-            action.onNext(.setInitialStock(stock))
+            self.editingStockId = stock.id
+            self.initialState = State(
+                name: stock.name,
+                averagePrice: stock.averagePrice,
+                quantity: stock.quantity,
+                totalPrice: stock.totalPrice,
+                originalStock: stock
+            )
+        } else {
+            self.initialState = State()
         }
     }
     
@@ -75,13 +86,17 @@ public final class CreateStockReactor: Reactor {
         switch action {
         case let .setInitialStock(stock):
             guard let stock = stock else { return .empty() }
-            return .just(.setInitialValues(stock))
+            return .concat([
+                .just(.setName(stock.name)),
+                .just(.setStock(
+                    averagePrice: stock.averagePrice,
+                    quantity: stock.quantity,
+                    totalPrice: stock.totalPrice
+                ))
+            ])
             
         case let .updateName(name):
-            return .concat([
-                .just(.setName(name)),
-                validateInput(name: name)
-            ])
+            return .just(.setName(name))
             
         case let .updateAveragePrice(price):
             let priceValue = convertToDouble(price)
@@ -143,14 +158,15 @@ public final class CreateStockReactor: Reactor {
                 })
                 .map { _ in .createComplete }
                 
-            case .edit(let stock):
-                print("✅ 주식 정보 수정")
-                print("- ID: \(stock.id)")
+            case .edit:
+                guard let id = editingStockId else { return .empty() }
+                print("⚙️ 주식 정보 수정")
+                print("- ID: \(id)")
                 print("- 이름: \(currentState.name)")
                 print("- 가격: \(price)")
                 print("- 수량: \(quantity)")
                 return stockManager.updateStock(
-                    id: stock.id,
+                    id: id,
                     name: currentState.name,
                     averagePrice: price,
                     quantity: quantity
@@ -170,14 +186,23 @@ public final class CreateStockReactor: Reactor {
         switch mutation {
         case let .setName(name):
             newState.name = name
+            newState.isValid = validateStockInput(
+                name: name,
+                price: state.averagePrice,
+                quantity: state.quantity,
+                originalStock: state.originalStock
+            )
             
         case let .setStock(price, quantity, total):
             newState.averagePrice = price
             newState.quantity = quantity
             newState.totalPrice = total
-            newState.isValid = !newState.name.isEmpty &&
-                                price != nil && quantity != nil &&
-                                price! > 0 && quantity! > 0
+            newState.isValid = validateStockInput(
+                name: newState.name,
+                price: price,
+                quantity: quantity,
+                originalStock: newState.originalStock
+            )
             
         case let .setIsValid(isValid):
             newState.isValid = isValid
@@ -206,13 +231,27 @@ extension CreateStockReactor {
         return Double(cleaned)
     }
     
-    private func validateInput(name: String) -> Observable<Mutation> {
-        let isValid = !name.isEmpty &&
-                        currentState.averagePrice != nil &&
-                        currentState.quantity != nil &&
-                        currentState.averagePrice! > 0 &&
-                        currentState.quantity! > 0
-        return .just(.setIsValid(isValid))
+    private func validateStockInput(
+        name: String,
+        price: Double?,
+        quantity: Double?,
+        originalStock: Stock?
+    ) -> Bool {
+        let hasValidValues = !name.isEmpty &&
+            price != nil && quantity != nil &&
+            price! > 0 && quantity! > 0
+        
+        if let original = originalStock {
+            // 수정 모드: 값이 변경되었고 유효한 값인 경우만 true
+            let hasChanges = name != original.name ||
+                price != original.averagePrice ||
+                quantity != original.quantity
+            
+            return hasValidValues && hasChanges
+        } else {
+            // 생성 모드: 유효한 값인 경우 true
+            return hasValidValues
+        }
     }
     
 }

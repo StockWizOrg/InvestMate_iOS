@@ -13,6 +13,8 @@ import RxSwift
 
 final class CreateStockViewController: UIViewController {
     
+    private let mode: CreateStockReactor.Mode
+    
     public var disposeBag = DisposeBag()
     
     private let nameLabel = UILabel()
@@ -23,7 +25,8 @@ final class CreateStockViewController: UIViewController {
     private let totalPriceView = LabeledTextFieldView(title: "총 금액", placeholder: "금액")
     private let confirmButton = UIButton()
     
-    init(reactor: CreateStockReactor) {
+    init(reactor: CreateStockReactor, mode: CreateStockReactor.Mode = .create) {
+        self.mode = mode
         super.init(nibName: nil, bundle: nil)
         self.reactor = reactor
     }
@@ -38,6 +41,13 @@ final class CreateStockViewController: UIViewController {
         setStyle()
         setUI()
         setLayout()
+        configureNavigationTitle()
+        configureConfirmButton()
+        
+        if case .edit(let stock) = mode {
+            nameTextField.text = stock.name
+            reactor?.action.onNext(.setInitialStock(stock))
+        }
     }
     
     private func setStyle() {
@@ -59,17 +69,24 @@ final class CreateStockViewController: UIViewController {
         nameTextField.keyboardType = .default
         
         dividerView.configureDivider()
-        
+    }
+    
+    private func configureNavigationTitle() {
+        title = mode == .create ? "종목 추가" : "종목 수정"
+    }
+    
+    private func configureConfirmButton() {
         var config = UIButton.Configuration.filled()
         config.cornerStyle = .capsule
         config.baseForegroundColor = .white
         config.baseBackgroundColor = .black
         
+        let buttonTitle = mode == .create ? "추가하기" : "수정하기"
         let attributes =  AttributeContainer([
             .font: UIFont.systemFont(ofSize: 16, weight: .semibold)
         ])
         
-        config.attributedTitle = AttributedString("추가하기", attributes: attributes)
+        config.attributedTitle = AttributedString(buttonTitle, attributes: attributes)
         confirmButton.configuration = config
     }
     
