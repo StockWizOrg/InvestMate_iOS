@@ -92,13 +92,13 @@ public final class StockCell: UITableViewCell {
         ])
         
         NSLayoutConstraint.activate([
-            stockNameLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 16),
-            stockNameLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 16),
-            
-            menuButton.centerYAnchor.constraint(equalTo: stockNameLabel.centerYAnchor),
+            menuButton.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 8),
             menuButton.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -16),
             menuButton.widthAnchor.constraint(equalToConstant: 44),
             menuButton.heightAnchor.constraint(equalToConstant: 44),
+            
+            stockNameLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 16),
+            stockNameLabel.centerYAnchor.constraint(equalTo: menuButton.centerYAnchor),
             
             dividerView.topAnchor.constraint(equalTo: menuButton.bottomAnchor, constant: 8),
             dividerView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 16),
