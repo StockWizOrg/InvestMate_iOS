@@ -15,6 +15,7 @@ public final class AdditionalPurchaseReactor: Reactor {
     public enum Action {
         case updateBoth(holdingPrice: Double?, holdingQuantity: Double?,
                         additionalPrice: Double?, additionalQuantity: Double?)
+        case setInitialStock(Stock)
     }
     
     public enum Mutation {
@@ -86,6 +87,21 @@ public final class AdditionalPurchaseReactor: Reactor {
                     final: nil
                 ))
             }
+            
+        case let .setInitialStock(stock):
+            let holding = StockInfo(
+                averagePrice: stock.averagePrice,
+                quantity: stock.quantity,
+                totalPrice: stock.totalPrice
+            )
+            
+            return .just(
+                .updateValues(
+                    holding: holding,
+                    additional: StockInfo(),
+                    final: nil
+                )
+            )
         }
     }
     

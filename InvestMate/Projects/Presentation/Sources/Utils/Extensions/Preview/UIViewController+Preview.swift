@@ -1,5 +1,5 @@
 //
-//  UIViewController+.swift
+//  UIViewController+Preview+.swift
 //  InvestMate
 //
 //  Created by 조호근 on 10/7/24.
@@ -24,5 +24,6 @@ extension UIViewController {
     func toPreview() -> some View {
         Preview(viewController: self)
     }
+    
 }
 #endif

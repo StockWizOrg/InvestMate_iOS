@@ -38,6 +38,7 @@ final class CreateStockViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.hideKeyboardWhenTappedAround()
         setStyle()
         setUI()
         setLayout()

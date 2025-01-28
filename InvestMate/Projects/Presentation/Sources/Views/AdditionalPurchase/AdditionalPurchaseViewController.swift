@@ -38,6 +38,7 @@ public class AdditionalPurchaseViewController: UIViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.hideKeyboardWhenTappedAround()
         setStyle()
         setUI()
         setLayout()
@@ -94,7 +95,7 @@ extension AdditionalPurchaseViewController: ReactorView {
     }
     
     private func bindInput(reactor: AdditionalPurchaseReactor) {
-        Observable.combineLatest(
+        let quantityBasedAction = Observable.combineLatest(
             holdingStockView.averagePriceObservable,
             holdingStockView.quantityObservable,
             additionalStockView.averagePriceObservable,
