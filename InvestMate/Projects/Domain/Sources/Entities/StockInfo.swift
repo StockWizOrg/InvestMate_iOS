@@ -9,9 +9,9 @@ import Foundation
 
 public struct StockInfo: Equatable {
     
-    public let averagePrice: Double?
-    public let quantity: Double?
-    public let totalPrice: Double?
+    public var averagePrice: Double?
+    public var quantity: Double?
+    public var totalPrice: Double?
     
     public init(averagePrice: Double? = nil, quantity: Double? = nil, totalPrice: Double? = nil) {
         self.averagePrice = averagePrice
