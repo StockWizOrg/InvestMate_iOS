@@ -80,7 +80,7 @@ public final class StockListViewController: UIViewController {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
         let additionalPurchase = UIAlertAction(title: "추가 매수", style: .default) { [weak self] _ in
-            self?.navigateToAdditionalPurchase()
+            self?.navigateToAdditionalPurchase(with: stock)
         }
         
         let edit = UIAlertAction(title: "수정", style: .default) { [weak self] _ in
@@ -96,12 +96,6 @@ public final class StockListViewController: UIViewController {
         [ edit, additionalPurchase, delete, cancel ].forEach { alert.addAction($0) }
         
         present(alert, animated: true)
-    }
-    
-    private func navigateToAdditionalPurchase() {
-        if let tabBarController = tabBarController {
-            tabBarController.selectedIndex = 0
-        }
     }
 
 }
@@ -175,12 +169,24 @@ extension StockListViewController: StockListRefreshDelegate {
         let createStockReactor = CreateStockReactor(
             stockManager: reactor.getStockManager(),
             calculator: calculator,
-            mode: stock.map { .edit($0) } ?? .create,
+            mode: mode,
             refreshDelegate: self
         )
         
-        let createStockVC = CreateStockViewController(reactor: createStockReactor)
+        let createStockVC = CreateStockViewController(reactor: createStockReactor,
+                                                      mode: mode)
         navigationController?.pushViewController(createStockVC, animated: true)
+    }
+    
+    private func navigateToAdditionalPurchase(with stock: Stock) {
+        if let tabBarController = tabBarController,
+           let navigationController = tabBarController.viewControllers?[0] as? UINavigationController,
+           let additionalPurchaseVC = navigationController.viewControllers.first as? AdditionalPurchaseViewController {
+            
+            additionalPurchaseVC.reactor?.action.onNext(.setInitialStock(stock))
+            
+            tabBarController.selectedIndex = 0
+        }
     }
     
 }

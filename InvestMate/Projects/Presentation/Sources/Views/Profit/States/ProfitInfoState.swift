@@ -1,5 +1,5 @@
 //
-//  ProfitInfo.swift
+//  ProfitInfoState.swift
 //  Domain
 //
 //  Created by 조호근 on 12/6/24.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct ProfitInfo: Equatable {
+public struct ProfitInfoState: Equatable {
     
     public let totalProfit: Double?
     public let profitRate: Double?

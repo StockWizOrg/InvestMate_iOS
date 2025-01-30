@@ -121,7 +121,8 @@ extension LabeledTextFieldView {
     }
     
     func setText(_ text: String?) {
-        textField.text = formatText(text)
+        let formattedText = formatText(text)
+        textField.text = formattedText
     }
     
     func setEditable(_ editable: Bool) {

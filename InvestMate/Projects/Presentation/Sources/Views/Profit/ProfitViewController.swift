@@ -33,6 +33,7 @@ public class ProfitViewController: UIViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.hideKeyboardWhenTappedAround()
         setStyle()
         setUI()
         setLayout()
