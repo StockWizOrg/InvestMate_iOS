@@ -27,16 +27,16 @@ public final class AdditionalPurchaseReactor: Reactor {
     }
     
     public enum Mutation {
-        case updateHolding(StockInfo)
-        case updateAdditional(StockInfo)
-        case updateFinal(StockInfo?)
+        case updateHolding(StockInfoState)
+        case updateAdditional(StockInfoState)
+        case updateFinal(StockInfoState?)
         case resetAdditional
     }
     
     public struct State {
-        var holding: StockInfo
-        var additional: StockInfo
-        var final: StockInfo?
+        var holding: StockInfoState
+        var additional: StockInfoState
+        var final: StockInfoState?
     }
     
     public let initialState: State
@@ -44,8 +44,8 @@ public final class AdditionalPurchaseReactor: Reactor {
     
     public init(calculator: StockCalculatorUseCase) {
         self.initialState = State(
-            holding: StockInfo(),
-            additional: StockInfo(),
+            holding: StockInfoState(),
+            additional: StockInfoState(),
             final: nil
         )
         self.calculator = calculator
@@ -230,7 +230,7 @@ public final class AdditionalPurchaseReactor: Reactor {
             return calculateFinalIfPossible(additional: additional)
             
         case let .setInitialStock(stock):
-            let holding = StockInfo(
+            let holding = StockInfoState(
                 averagePrice: stock.averagePrice,
                 quantity: stock.quantity,
                 totalPrice: stock.totalPrice
@@ -240,7 +240,7 @@ public final class AdditionalPurchaseReactor: Reactor {
         }
     }
     
-    private func calculateFinalIfPossible(additional: StockInfo) -> Observable<Mutation> {
+    private func calculateFinalIfPossible(additional: StockInfoState) -> Observable<Mutation> {
         let mutations: [Observable<Mutation>] = [.just(.updateAdditional(additional))]
         
         if let hp = currentState.holding.averagePrice,
@@ -256,7 +256,7 @@ public final class AdditionalPurchaseReactor: Reactor {
                     additionalQuantity: aq
                 )
                 .map { finalResult in
-                    .updateFinal(StockInfo(
+                    .updateFinal(StockInfoState(
                         averagePrice: finalResult.averagePrice,
                         quantity: finalResult.quantity,
                         totalPrice: finalResult.totalPrice
@@ -283,7 +283,7 @@ public final class AdditionalPurchaseReactor: Reactor {
         case let .updateFinal(final):
             newState.final = final
         case .resetAdditional:
-            newState.additional = StockInfo()
+            newState.additional = StockInfoState()
             newState.final = nil
         }
         

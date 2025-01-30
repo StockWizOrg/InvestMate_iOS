@@ -17,11 +17,11 @@ public final class ProfitReactor: Reactor {
     }
     
     public enum Mutation {
-        case setProfitInfo(ProfitInfo)
+        case setProfitInfo(ProfitInfoState)
     }
     
     public struct State {
-        var profitInfo: ProfitInfo
+        var profitInfo: ProfitInfoState
     }
     
     public let initialState: State
@@ -29,7 +29,7 @@ public final class ProfitReactor: Reactor {
     
     public init(calculator: ProfitCalculatorUseCase) {
         self.calculator = calculator
-        self.initialState = State(profitInfo: ProfitInfo())
+        self.initialState = State(profitInfo: ProfitInfoState())
     }
     
     public func mutate(action: Action) -> Observable<Mutation> {
@@ -51,7 +51,7 @@ public final class ProfitReactor: Reactor {
                     calculator.calculateTotalAmount(price: salePrice, quantity: qty)
                 )
                 .map { profitResult, purchaseAmount, saleAmount in
-                    let profitInfo = ProfitInfo(
+                    let profitInfo = ProfitInfoState(
                         totalProfit: profitResult.totalProfit,
                         profitRate: profitResult.profitRate,
                         purchaseAmount: purchaseAmount,
@@ -62,7 +62,7 @@ public final class ProfitReactor: Reactor {
                 }
             }
             
-            return .just(.setProfitInfo(ProfitInfo()))
+            return .just(.setProfitInfo(ProfitInfoState()))
         }
     }
     

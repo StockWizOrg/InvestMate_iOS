@@ -1,5 +1,5 @@
 //
-//  StockInfo.swift
+//  StockInfoState.swift
 //  Domain
 //
 //  Created by 조호근 on 10/16/24.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct StockInfo: Equatable {
+public struct StockInfoState: Equatable {
     
     public var averagePrice: Double?
     public var quantity: Double?
