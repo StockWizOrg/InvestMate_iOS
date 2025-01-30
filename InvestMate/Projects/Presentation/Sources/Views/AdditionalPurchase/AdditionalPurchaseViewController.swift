@@ -95,29 +95,67 @@ extension AdditionalPurchaseViewController: ReactorView {
     }
     
     private func bindInput(reactor: AdditionalPurchaseReactor) {
-        let quantityBasedAction = Observable.combineLatest(
-            holdingStockView.averagePriceObservable,
-            holdingStockView.quantityObservable,
-            additionalStockView.averagePriceObservable,
-            additionalStockView.quantityObservable
-        )
-        .map { holdingPrice, holdingQty, additionalPrice, additionalQty in
-            // 전처리
-            let cleanHoldingPrice = holdingPrice?.replacingOccurrences(of: ",", with: "")
-            let cleanHoldingQty = holdingQty?.replacingOccurrences(of: ",", with: "")
-            let cleanAdditionalPrice = additionalPrice?.replacingOccurrences(of: ",", with: "")
-            let cleanAdditionalQty = additionalQty?.replacingOccurrences(of: ",", with: "")
-            
-            // 모든 값을 하나의 Action으로 변환
-            return AdditionalPurchaseReactor.Action.updateBoth(
-                holdingPrice: Double(cleanHoldingPrice ?? ""),
-                holdingQuantity: Double(cleanHoldingQty ?? ""),
-                additionalPrice: Double(cleanAdditionalPrice ?? ""),
-                additionalQuantity: Double(cleanAdditionalQty ?? "")
-            )
-        }
-        .bind(to: reactor.action)
-        .disposed(by: disposeBag)
+        // 현재 보유 입력 바인딩
+        holdingStockView.averagePriceObservable
+            .map { priceStr -> Double? in
+                guard let str = priceStr, !str.isEmpty else { return nil }
+                let clean = str.replacingOccurrences(of: ",", with: "")
+                return Double(clean)
+            }
+            .map { Reactor.Action.updateHoldingPrice($0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        holdingStockView.quantityObservable
+            .map { qtyStr -> Double? in
+                guard let str = qtyStr, !str.isEmpty else { return nil }
+                let clean = str.replacingOccurrences(of: ",", with: "")
+                return Double(clean)
+            }
+            .map { Reactor.Action.updateHoldingQuantity($0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        holdingStockView.totalPriceObservable
+            .map { totalStr -> Double? in
+                guard let str = totalStr, !str.isEmpty else { return nil }
+                let clean = str.replacingOccurrences(of: ",", with: "")
+                return Double(clean)
+            }
+            .map { Reactor.Action.updateHoldingTotal($0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        // 추가 매수 입력 바인딩
+        additionalStockView.averagePriceObservable
+            .map { priceStr -> Double? in
+                guard let str = priceStr, !str.isEmpty else { return nil }
+                let clean = str.replacingOccurrences(of: ",", with: "")
+                return Double(clean)
+            }
+            .map { Reactor.Action.updateAdditionalPrice($0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        additionalStockView.quantityObservable
+            .map { qtyStr -> Double? in
+                guard let str = qtyStr, !str.isEmpty else { return nil }
+                let clean = str.replacingOccurrences(of: ",", with: "")
+                return Double(clean)
+            }
+            .map { Reactor.Action.updateAdditionalQuantity($0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        additionalStockView.totalPriceObservable
+            .map { totalStr -> Double? in
+                guard let str = totalStr, !str.isEmpty else { return nil }
+                let clean = str.replacingOccurrences(of: ",", with: "")
+                return Double(clean)
+            }
+            .map { Reactor.Action.updateAdditionalTotal($0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
     }
     
     private func bindOutput(reactor: AdditionalPurchaseReactor) {
