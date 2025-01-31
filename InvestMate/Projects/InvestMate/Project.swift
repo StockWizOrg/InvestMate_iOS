@@ -11,6 +11,8 @@ let project = Project(
             deploymentTargets: .iOS("17.5"),
             infoPlist: .extendingDefault(
                 with: [
+                    "CFBundleShortVersionString": "1.0.0",
+                    "CFBundleVersion": "1",
                     "UILaunchStoryboardName": "LaunchScreen.storyboard",
                     "UIApplicationSceneManifest": [
                         "UIApplicationSupportsMultipleScenes": false,
