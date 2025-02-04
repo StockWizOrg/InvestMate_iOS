@@ -71,7 +71,16 @@ public final class MainTabBarController: UITabBarController {
             selectedImage: UIImage(systemName: "list.bullet.circle.fill")
         )
         
-        viewControllers = [additionalPurchaseNav, profitNav, stockListNav]
+        // 더보기 탭
+        let moreMenuVC = MoreMenuViewController()
+        let moreMenuNav = UINavigationController(rootViewController: moreMenuVC)
+        moreMenuNav.tabBarItem = UITabBarItem(
+            title: "더보기",
+            image: UIImage(systemName: "ellipsis"),
+            selectedImage: UIImage(systemName: "ellipsis")
+        )
+        
+        viewControllers = [additionalPurchaseNav, profitNav, stockListNav, moreMenuNav]
     }
     
     private func setupTabBarAppearance() {

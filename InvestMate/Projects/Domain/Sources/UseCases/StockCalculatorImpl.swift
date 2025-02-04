@@ -26,13 +26,13 @@ public struct StockCalculatorImpl: StockCalculatorUseCase {
         additionalQuantity: Double
     ) -> Observable<(averagePrice: Double, quantity: Double, totalPrice: Double)> {
         // 모든 값을 소수점 2자리까지 유지
-        let finalQuantity = (holdingQuantity + additionalQuantity).rounded(toPlaces: 2)
+        let finalQuantity = (holdingQuantity + additionalQuantity).roundedToDecimal()
         
         let holdingTotal = holdingAveragePrice * holdingQuantity
         let additionalTotal = additionalAveragePrice * additionalQuantity
-        let finalTotalPrice = (holdingTotal + additionalTotal).rounded(toPlaces: 2)
+        let finalTotalPrice = (holdingTotal + additionalTotal).roundedToDecimal()
         
-        let finalAveragePrice = (finalTotalPrice / finalQuantity).rounded(toPlaces: 2)
+        let finalAveragePrice = (finalTotalPrice / finalQuantity).roundedToDecimal()
         
         return .just((finalAveragePrice, finalQuantity, finalTotalPrice))
     }
