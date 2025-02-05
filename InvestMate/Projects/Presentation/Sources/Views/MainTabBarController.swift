@@ -56,7 +56,7 @@ public final class MainTabBarController: UITabBarController {
         profitVC.tabBarItem = UITabBarItem(
             title: "수익 계산",
             image: UIImage(systemName: "chart.line.uptrend.xyaxis"),
-            selectedImage: UIImage(systemName: "chart.line.uptrend.xyaxis.circle.fill")
+            selectedImage: UIImage(systemName: "chart.line.uptrend.xyaxis")
         )
         
         // 종목 관리 탭
@@ -68,7 +68,7 @@ public final class MainTabBarController: UITabBarController {
         stockListNav.tabBarItem = UITabBarItem(
             title: "종목 관리",
             image: UIImage(systemName: "list.bullet"),
-            selectedImage: UIImage(systemName: "list.bullet.circle.fill")
+            selectedImage: UIImage(systemName: "list.bullet")
         )
         
         // 더보기 탭
