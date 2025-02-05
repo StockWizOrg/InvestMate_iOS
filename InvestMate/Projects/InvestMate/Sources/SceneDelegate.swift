@@ -17,6 +17,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         
         setupGlobalNavigationBarAppearance()
+        setupGlobalTabBarAppearance()
         
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
@@ -73,6 +74,15 @@ extension SceneDelegate {
 
         UINavigationBar.appearance().standardAppearance = appearance
         UINavigationBar.appearance().scrollEdgeAppearance = appearance
+    }
+    
+    func setupGlobalTabBarAppearance() {
+        let appearance = UITabBarAppearance()
+        appearance.backgroundColor = .systemGray6
+        appearance.shadowColor = UIColor.gray.withAlphaComponent(0.2)
+        
+        UITabBar.appearance().standardAppearance = appearance
+        UITabBar.appearance().scrollEdgeAppearance = appearance
     }
     
 }
