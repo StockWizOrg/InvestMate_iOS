@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import MessageUI
+
 import Domain
 
 class MoreMenuViewController: UIViewController {
@@ -17,6 +19,13 @@ class MoreMenuViewController: UIViewController {
     private let infoTitleLabel = UILabel()
     private let decimalDisplayButton = UIButton()
     private let settingsDividerView = UIView()
+    private let customerSupportLabel = UILabel()
+    private let contactUsTitleLabel = UILabel()
+    private let contactUsButton = UIButton()
+    private let rateAppTitleLabel = UILabel()
+    private let rateAppButton = UIButton()
+    private let shareAppTitleLabel = UILabel()
+    private let shareAppButton = UIButton()
     
     let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "Unknown"
     let buildNumber = Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? "Unknown"
@@ -27,7 +36,7 @@ class MoreMenuViewController: UIViewController {
         setStyle()
         setUI()
         setLayout()
-        configureConfirmButton()
+        configureButtons()
     }
     
 
@@ -59,7 +68,31 @@ class MoreMenuViewController: UIViewController {
             ofSize: 14,
             weight: .regular
         )
-        infoTitleLabel.textColor = .systemGray
+        infoTitleLabel.textColor = .black
+        
+        customerSupportLabel.configureTitleLabel(
+            title: "고객 지원",
+            ofSize: 16,
+            weight: .bold
+        )
+        
+        contactUsTitleLabel.configureTitleLabel(
+            title: "서비스 이용 문의",
+            ofSize: 14,
+            weight: .regular
+        )
+        
+        rateAppTitleLabel.configureTitleLabel(
+            title: "앱스토어 리뷰",
+            ofSize: 14,
+            weight: .regular
+        )
+        
+        shareAppTitleLabel.configureTitleLabel(
+            title: "앱 추천하기",
+            ofSize: 14,
+            weight: .regular
+        )
         
         [versionDividerView, settingsDividerView].forEach {
             $0.configureDivider()
@@ -75,7 +108,14 @@ class MoreMenuViewController: UIViewController {
             settingsTitleLabel,
             infoTitleLabel,
             decimalDisplayButton,
-            settingsDividerView
+            settingsDividerView,
+            customerSupportLabel,
+            contactUsTitleLabel,
+            contactUsButton,
+            rateAppTitleLabel,
+            rateAppButton,
+            shareAppTitleLabel,
+            shareAppButton
         )
     }
     
@@ -109,29 +149,53 @@ class MoreMenuViewController: UIViewController {
             settingsDividerView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
             settingsDividerView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
             
+            customerSupportLabel.topAnchor.constraint(equalTo: settingsDividerView.bottomAnchor, constant: 28),
+            customerSupportLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+            
+            contactUsTitleLabel.topAnchor.constraint(equalTo: customerSupportLabel.bottomAnchor, constant: 28),
+            contactUsTitleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+            
+            contactUsButton.centerYAnchor.constraint(equalTo: contactUsTitleLabel.centerYAnchor),
+            contactUsButton.trailingAnchor.constraint(equalTo: versionDividerView.trailingAnchor),
+            contactUsButton.heightAnchor.constraint(equalToConstant: 22),
+            
+            rateAppTitleLabel.topAnchor.constraint(equalTo: contactUsTitleLabel.bottomAnchor, constant: 28),
+            rateAppTitleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+            
+            rateAppButton.centerYAnchor.constraint(equalTo: rateAppTitleLabel.centerYAnchor),
+            rateAppButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+            rateAppButton.heightAnchor.constraint(equalToConstant: 22),
+            
+            shareAppTitleLabel.topAnchor.constraint(equalTo: rateAppTitleLabel.bottomAnchor, constant: 28),
+            shareAppTitleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+            
+            shareAppButton.centerYAnchor.constraint(equalTo: shareAppTitleLabel.centerYAnchor),
+            shareAppButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+            shareAppButton.heightAnchor.constraint(equalToConstant: 22)
             
         ])
     }
     
-    private func configureConfirmButton() {
-        var config = UIButton.Configuration.plain()
-        config.baseForegroundColor = .systemGray
-        
-        let attributes =  AttributeContainer([
-            .font: UIFont.systemFont(ofSize: 14, weight: .regular)
-        ])
-        
-        config.attributedTitle = AttributedString("소수점 표시", attributes: attributes)
-        config.image = UIImage(systemName: "chevron.right")?.withConfiguration(
-            UIImage.SymbolConfiguration(pointSize: 10, weight: .semibold)
-        )
-        config.imagePadding = 12
-        config.imagePlacement = .trailing
-        
-        decimalDisplayButton.configuration = config
+    private func configureButtons() {
+        decimalDisplayButton.configureMoreMenuButton(title: "소수점 표시")
         decimalDisplayButton.menu = makeDecimalDisplayMenu()
         decimalDisplayButton.showsMenuAsPrimaryAction = true
+        
+        contactUsButton.configureMoreMenuButton(title: "문의하기")
+        contactUsButton.addAction(
+            UIAction { [weak self] _ in
+                self?.handleContactUs()
+            },
+            for: .touchUpInside
+        )
+        
+        rateAppButton.configureMoreMenuButton(title: "평가하기")
+        shareAppButton.configureMoreMenuButton(title: "공유하기")
     }
+    
+}
+
+extension MoreMenuViewController {
     
     private func makeDecimalDisplayMenu() -> UIMenu {
         let actions = [1, 2, 3, 4, 5, 6].map { places in
@@ -151,7 +215,52 @@ class MoreMenuViewController: UIViewController {
         let currentPlaces = UserDefaults.standard.integer(forKey: "DecimalPlaces").nonZero ?? 1
         return currentPlaces == places
     }
+    
+    private func handleContactUs() {
+        if MFMailComposeViewController.canSendMail() {
+            let mailComposeVC = MFMailComposeViewController()
+            mailComposeVC.mailComposeDelegate = self
+            
+            mailComposeVC.setToRecipients(["josama2022.dev@gmail.com"])
+            mailComposeVC.setSubject("[InvestMate] 문의하기")
+            
+            let deviceInfo = """
+                
+                이곳에 내용을 작성해주세요
+                
+                
+                ================================
+                App Version : \(appVersion)
+                Device Model : \(UIDevice.current.model)
+                Device OS : \(UIDevice.current.systemVersion)
+                ================================
+                """
+            
+            mailComposeVC.setMessageBody(deviceInfo, isHTML: false)
+            present(mailComposeVC, animated: true)
+        } else {
+            self.showMailErrorAlert()
+        }
+    }
+    
+    private func showMailErrorAlert() {
+        let alert = UIAlertController(
+            title: "메일 계정 활성화 필요",
+            message: "Mail 앱에서 사용자의 Email을 계정을 설정해 주세요.",
+            preferredStyle: .alert
+        )
+        alert.addAction(UIAlertAction(title: "확인", style: .default))
+        present(alert, animated: true)
+    }
+    
+}
 
+extension MoreMenuViewController: MFMailComposeViewControllerDelegate {
+    
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        controller.dismiss(animated: true)
+    }
+    
 }
 
 #if DEBUG
