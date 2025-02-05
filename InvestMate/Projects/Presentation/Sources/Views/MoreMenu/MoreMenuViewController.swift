@@ -190,6 +190,13 @@ class MoreMenuViewController: UIViewController {
         )
         
         rateAppButton.configureMoreMenuButton(title: "평가하기")
+        rateAppButton.addAction(
+            UIAction { [weak self] _ in
+                self?.handleRateApp()
+            },
+            for: .touchUpInside
+        )
+        
         shareAppButton.configureMoreMenuButton(title: "공유하기")
     }
     
@@ -251,6 +258,17 @@ extension MoreMenuViewController {
         )
         alert.addAction(UIAlertAction(title: "확인", style: .default))
         present(alert, animated: true)
+    }
+    
+    private func handleRateApp() {
+        // TODO: 실제 앱 ID로 교체하기
+        
+        let appID = "idYOUR_APP_ID"
+        guard let url = URL(string: "https://apps.apple.com/app/id\(appID)?action=write-review") else {
+            return
+        }
+        
+        UIApplication.shared.open(url)
     }
     
 }
