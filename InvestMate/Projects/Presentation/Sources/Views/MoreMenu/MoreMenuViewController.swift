@@ -29,6 +29,7 @@ class MoreMenuViewController: UIViewController {
     
     let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "Unknown"
     let buildNumber = Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? "Unknown"
+    let appID = "idYOUR_APP_ID"
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -198,6 +199,12 @@ class MoreMenuViewController: UIViewController {
         )
         
         shareAppButton.configureMoreMenuButton(title: "공유하기")
+        shareAppButton.addAction(
+            UIAction { [weak self] _ in
+                self?.handleShare()
+            },
+            for: .touchUpInside
+        )
     }
     
 }
@@ -263,12 +270,33 @@ extension MoreMenuViewController {
     private func handleRateApp() {
         // TODO: 실제 앱 ID로 교체하기
         
-        let appID = "idYOUR_APP_ID"
         guard let url = URL(string: "https://apps.apple.com/app/id\(appID)?action=write-review") else {
             return
         }
         
         UIApplication.shared.open(url)
+    }
+    
+    private func handleShare() {
+        let appStoreURL = "https://apps.apple.com/app/id\(appID)?action=write-review"
+        let message = """
+                [InvestMate]
+                주식 물타기 계산기 📈
+                합리적인 매수 전략을 세워보세요!
+                
+                """
+        
+        let itemsToShare: [Any] = [
+            message,
+            appStoreURL
+        ]
+        
+        let activityVC = UIActivityViewController(
+            activityItems: itemsToShare,
+            applicationActivities: nil
+        )
+        
+        present(activityVC, animated: true)
     }
     
 }
