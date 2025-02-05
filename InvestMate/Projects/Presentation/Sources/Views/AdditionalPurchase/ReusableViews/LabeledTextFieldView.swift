@@ -102,7 +102,8 @@ extension LabeledTextFieldView: UITextFieldDelegate {
         
         if cleanText.contains(".") {
             let parts = cleanText.components(separatedBy: ".")
-            if parts.count > 1 && parts[1].count > 2 {
+            let maxDecimalPlaces = UserDefaults.standard.integer(forKey: "DecimalPlaces").nonZero ?? 1
+            if parts.count > 1 && parts[1].count > maxDecimalPlaces {
                 return false
             }
         }

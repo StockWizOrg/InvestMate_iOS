@@ -19,8 +19,8 @@ public struct ProfitCalculatorImpl: ProfitCalculatorUseCase {
         let purchaseAmount = averagePrice * quantity
         let saleAmount = salePrice * quantity
         
-        let totalProfit = (saleAmount - purchaseAmount).rounded(toPlaces: 2)
-        let profitRate = ((salePrice - averagePrice) / averagePrice * 100).rounded(toPlaces: 2)
+        let totalProfit = (saleAmount - purchaseAmount).roundedToDecimal()
+        let profitRate = ((salePrice - averagePrice) / averagePrice * 100).roundedToDecimal()
         
         return .just((totalProfit, profitRate))
     }
@@ -29,7 +29,7 @@ public struct ProfitCalculatorImpl: ProfitCalculatorUseCase {
         price: Double,
         quantity: Double
     ) -> Observable<Double> {
-        let totalAmount = (price * quantity).rounded(toPlaces: 2)
+        let totalAmount = (price * quantity).roundedToDecimal()
         
         return .just(totalAmount)
     }

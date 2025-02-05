@@ -15,6 +15,8 @@ public class ProfitViewController: UIViewController {
     
     public var disposeBag = DisposeBag()
     
+    private let scrollView = UIScrollView()
+    private let contentView = UIView()
     private let averagePriceView = LabeledTextFieldView(title: "매수단가", ofSize: 20, placeholder: "금액")
     private let quantityView = LabeledTextFieldView(title: "매도수량", ofSize: 20, placeholder: "수량")
     private let salePriceView = LabeledTextFieldView(title: "매도단가", ofSize: 20, placeholder: "금액")
@@ -41,14 +43,17 @@ public class ProfitViewController: UIViewController {
     
     private func setStyle() {
         self.title = "수익"
-        
         self.view.backgroundColor = .systemGray6
+        scrollView.showsVerticalScrollIndicator = false
         
         dividerView.configureDivider()
     }
     
     private func setUI() {
-        self.view.addSubviews(
+        view.addSubviews(scrollView)
+        scrollView.addSubviews(contentView)
+        
+        contentView.addSubviews(
             averagePriceView,
             quantityView,
             salePriceView,
@@ -61,25 +66,37 @@ public class ProfitViewController: UIViewController {
         let safeArea = view.safeAreaLayoutGuide
         
         NSLayoutConstraint.activate([
-            averagePriceView.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 8),
-            averagePriceView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 16),
-            averagePriceView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -16),
+            scrollView.topAnchor.constraint(equalTo: safeArea.topAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor),
+            
+            contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
+            
+            averagePriceView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
+            averagePriceView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            averagePriceView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             
             quantityView.topAnchor.constraint(equalTo: averagePriceView.bottomAnchor, constant: 16),
-            quantityView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 16),
-            quantityView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -16),
+            quantityView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            quantityView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             
             salePriceView.topAnchor.constraint(equalTo: quantityView.bottomAnchor, constant: 16),
-            salePriceView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 16),
-            salePriceView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -16),
+            salePriceView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            salePriceView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             
             dividerView.topAnchor.constraint(equalTo: salePriceView.bottomAnchor, constant: 20),
-            dividerView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 16),
-            dividerView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -16),
+            dividerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            dividerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             
             profitResultView.topAnchor.constraint(equalTo: dividerView.bottomAnchor, constant: 20),
-            profitResultView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 16),
-            profitResultView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -16)
+            profitResultView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            profitResultView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            profitResultView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20)
             
         ])
     }

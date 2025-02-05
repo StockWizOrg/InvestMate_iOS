@@ -56,7 +56,7 @@ public final class MainTabBarController: UITabBarController {
         profitVC.tabBarItem = UITabBarItem(
             title: "수익 계산",
             image: UIImage(systemName: "chart.line.uptrend.xyaxis"),
-            selectedImage: UIImage(systemName: "chart.line.uptrend.xyaxis.circle.fill")
+            selectedImage: UIImage(systemName: "chart.line.uptrend.xyaxis")
         )
         
         // 종목 관리 탭
@@ -68,10 +68,19 @@ public final class MainTabBarController: UITabBarController {
         stockListNav.tabBarItem = UITabBarItem(
             title: "종목 관리",
             image: UIImage(systemName: "list.bullet"),
-            selectedImage: UIImage(systemName: "list.bullet.circle.fill")
+            selectedImage: UIImage(systemName: "list.bullet")
         )
         
-        viewControllers = [additionalPurchaseNav, profitNav, stockListNav]
+        // 더보기 탭
+        let moreMenuVC = MoreMenuViewController()
+        let moreMenuNav = UINavigationController(rootViewController: moreMenuVC)
+        moreMenuNav.tabBarItem = UITabBarItem(
+            title: "더보기",
+            image: UIImage(systemName: "ellipsis"),
+            selectedImage: UIImage(systemName: "ellipsis")
+        )
+        
+        viewControllers = [additionalPurchaseNav, profitNav, stockListNav, moreMenuNav]
     }
     
     private func setupTabBarAppearance() {
