@@ -99,6 +99,7 @@ final class ProfitResultView: UIView {
             saleAmountLabel.topAnchor.constraint(equalTo: saleTitleLabel.bottomAnchor, constant: 6),
             saleAmountLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
             saleAmountLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
+            saleAmountLabel.bottomAnchor.constraint(equalTo: bottomAnchor),
             saleAmountLabel.heightAnchor.constraint(equalToConstant: 44)
         ])
     }

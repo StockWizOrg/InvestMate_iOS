@@ -13,6 +13,8 @@ import RxSwift
 
 public class AdditionalPurchaseViewController: UIViewController {
     
+    private let scrollView = UIScrollView()
+    private let contentView = UIView()
     private let holdingStockView: CustomStockView
     private let additionalStockView: CustomStockView
     private let finalStockView = StockResultView()
@@ -47,6 +49,7 @@ public class AdditionalPurchaseViewController: UIViewController {
     private func setStyle() {
         self.title = "추가 매수"
         self.view.backgroundColor = .systemGray6
+        scrollView.showsVerticalScrollIndicator = false
         
         dividerView.configureDivider()
         
@@ -59,20 +62,35 @@ public class AdditionalPurchaseViewController: UIViewController {
     }
     
     private func setUI() {
+        view.addSubviews(scrollView)
+        scrollView.addSubviews(contentView)
+        
+        contentView.addSubviews(mainStackView)
+        
         topStackView.addArrangedSubviews(holdingStockView, additionalStockView)
         dividerContainer.addSubview(dividerView)
         mainStackView.addArrangedSubviews(topStackView, dividerContainer, finalStockView)
-        
-        self.view.addSubviews(mainStackView)
     }
     
     private func setLayout() {
         let safeArea = view.safeAreaLayoutGuide
         
         NSLayoutConstraint.activate([
-            mainStackView.topAnchor.constraint(equalTo: safeArea.topAnchor),
-            mainStackView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
-            mainStackView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
+            scrollView.topAnchor.constraint(equalTo: safeArea.topAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor),
+            
+            contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
+            
+            mainStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
+            mainStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            mainStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            mainStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20),
             
             topStackView.heightAnchor.constraint(equalTo: finalStockView.heightAnchor, multiplier: 2),
             
@@ -206,10 +224,10 @@ extension AdditionalPurchaseViewController: ReactorView {
     
 }
 
-#if DEBUG
-import SwiftUI
-
-#Preview {
-    AdditionalPurchaseViewController(reactor: AdditionalPurchaseReactor(calculator: StockCalculatorImpl()), calculator: StockCalculatorImpl()).toPreview()
-}
-#endif
+//#if DEBUG
+//import SwiftUI
+//
+//#Preview {
+//    AdditionalPurchaseViewController(reactor: AdditionalPurchaseReactor(calculator: StockCalculatorImpl()), calculator: StockCalculatorImpl()).toPreview()
+//}
+//#endif

@@ -12,6 +12,8 @@ import Domain
 
 class MoreMenuViewController: UIViewController {
     
+    private let scrollView = UIScrollView()
+    private let contentView = UIView()
     private let versionTitleLabel = UILabel()
     private let versionValueLabel = UILabel()
     private let versionDividerView = UIView()
@@ -44,6 +46,7 @@ class MoreMenuViewController: UIViewController {
     private func setStyle() {
         self.title = "더보기"
         self.view.backgroundColor = .systemGray6
+        scrollView.showsVerticalScrollIndicator = false
         
         versionTitleLabel.configureTitleLabel(
             title: "앱 버전 정보",
@@ -102,7 +105,10 @@ class MoreMenuViewController: UIViewController {
     }
     
     private func setUI() {
-        self.view.addSubviews(
+        view.addSubviews(scrollView)
+        scrollView.addSubviews(contentView)
+        
+        contentView.addSubviews(
             versionTitleLabel,
             versionValueLabel,
             versionDividerView,
@@ -122,57 +128,67 @@ class MoreMenuViewController: UIViewController {
     
     private func setLayout() {
         let safeArea = view.safeAreaLayoutGuide
-        let leadingAnchor = view.leadingAnchor
-        let trailingAnchor = view.trailingAnchor
         
         NSLayoutConstraint.activate([
-            versionTitleLabel.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 32),
-            versionTitleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+            scrollView.topAnchor.constraint(equalTo: safeArea.topAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor),
+            
+            contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
+            
+            versionTitleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
+            versionTitleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             
             versionValueLabel.topAnchor.constraint(equalTo: versionTitleLabel.bottomAnchor, constant: 28),
-            versionValueLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+            versionValueLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             
             versionDividerView.topAnchor.constraint(equalTo: versionValueLabel.bottomAnchor, constant: 28),
-            versionDividerView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-            versionDividerView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+            versionDividerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            versionDividerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             
             settingsTitleLabel.topAnchor.constraint(equalTo: versionDividerView.bottomAnchor, constant: 28),
-            settingsTitleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+            settingsTitleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             
             infoTitleLabel.topAnchor.constraint(equalTo: settingsTitleLabel.bottomAnchor, constant: 28),
-            infoTitleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+            infoTitleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             
             decimalDisplayButton.centerYAnchor.constraint(equalTo: infoTitleLabel.centerYAnchor),
             decimalDisplayButton.trailingAnchor.constraint(equalTo: versionDividerView.trailingAnchor),
             decimalDisplayButton.heightAnchor.constraint(equalToConstant: 22),
             
             settingsDividerView.topAnchor.constraint(equalTo: infoTitleLabel.bottomAnchor, constant: 28),
-            settingsDividerView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-            settingsDividerView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+            settingsDividerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            settingsDividerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             
             customerSupportLabel.topAnchor.constraint(equalTo: settingsDividerView.bottomAnchor, constant: 28),
-            customerSupportLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+            customerSupportLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             
             contactUsTitleLabel.topAnchor.constraint(equalTo: customerSupportLabel.bottomAnchor, constant: 28),
-            contactUsTitleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+            contactUsTitleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             
             contactUsButton.centerYAnchor.constraint(equalTo: contactUsTitleLabel.centerYAnchor),
             contactUsButton.trailingAnchor.constraint(equalTo: versionDividerView.trailingAnchor),
             contactUsButton.heightAnchor.constraint(equalToConstant: 22),
             
             rateAppTitleLabel.topAnchor.constraint(equalTo: contactUsTitleLabel.bottomAnchor, constant: 28),
-            rateAppTitleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+            rateAppTitleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             
             rateAppButton.centerYAnchor.constraint(equalTo: rateAppTitleLabel.centerYAnchor),
-            rateAppButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+            rateAppButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             rateAppButton.heightAnchor.constraint(equalToConstant: 22),
             
             shareAppTitleLabel.topAnchor.constraint(equalTo: rateAppTitleLabel.bottomAnchor, constant: 28),
-            shareAppTitleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+            shareAppTitleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             
             shareAppButton.centerYAnchor.constraint(equalTo: shareAppTitleLabel.centerYAnchor),
-            shareAppButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
-            shareAppButton.heightAnchor.constraint(equalToConstant: 22)
+            shareAppButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            shareAppButton.heightAnchor.constraint(equalToConstant: 22),
+            shareAppButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20)
             
         ])
     }
