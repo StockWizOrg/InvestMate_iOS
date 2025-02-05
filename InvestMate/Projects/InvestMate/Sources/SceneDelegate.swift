@@ -21,6 +21,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
         let window = UIWindow(windowScene: windowScene)
+        window.overrideUserInterfaceStyle = .light
         
         // 의존성 주입
         let calculator = StockCalculatorImpl()
