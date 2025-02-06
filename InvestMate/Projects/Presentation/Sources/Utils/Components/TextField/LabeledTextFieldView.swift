@@ -15,6 +15,7 @@ class LabeledTextFieldView: UIView {
     private let titleLabel = UILabel()
     private let textField = UITextField()
     private let stackView = UIStackView()
+    private let type: TextFieldType
     
     private let disposeBag = DisposeBag()
     private let formattedTextRelay = BehaviorRelay<String?>(value: nil)
@@ -23,7 +24,11 @@ class LabeledTextFieldView: UIView {
         return formattedTextRelay.asObservable()
     }
     
-    init(title: String, ofSize: Int = 14, placeholder: String) {
+    private var previousField: UITextField?
+    private var nextField: UITextField?
+    
+    init(title: String, ofSize: Int = 14, placeholder: String, type: TextFieldType = .numeric) {
+        self.type = type
         super.init(frame: .zero)
         
         setStyle(title: title, ofSize: ofSize, placeholder: placeholder)
@@ -34,6 +39,7 @@ class LabeledTextFieldView: UIView {
     }
     
     required init?(coder: NSCoder) {
+        self.type = .numeric
         super.init(coder: coder)
     }
     
@@ -45,8 +51,11 @@ class LabeledTextFieldView: UIView {
             titleLabel.configureTitleLabel(title: title, ofSize: 20, weight: .bold, indent: 8)
         }
         
+        setupKeyboardToolbar()
         textField.configureNumericInputField(placeholder: placeholder, fontSize: 14, weight: .bold, padding: 10)
-        textField.keyboardType = .decimalPad
+        textField.keyboardType = type.keyboardType
+        textField.addTarget(self, action: #selector(textFieldDidBeginEditing), for: .editingDidBegin)
+        textField.addTarget(self, action: #selector(textFieldDidEndEditing), for: .editingDidEnd)
         
         stackView.addArrangedSubviews(titleLabel, textField)
         stackView.configureStackView()
@@ -78,39 +87,7 @@ extension LabeledTextFieldView: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
         let currentText = textField.text ?? ""
-        let text = (currentText as NSString).replacingCharacters(in: range, with: string)
-        
-        
-        if text.isEmpty || string.isEmpty {
-            return true
-        }
-        
-        let cleanText = text.replacingOccurrences(of: ",", with: "")
-        
-        if string == "." {
-            let hasDot = currentText.replacingOccurrences(of: ",", with: "").contains(".")
-            
-            if hasDot {
-                return false
-            }
-            
-            if cleanText == "." {
-                return false
-            }
-            return true
-        }
-        
-        if cleanText.contains(".") {
-            let parts = cleanText.components(separatedBy: ".")
-            let maxDecimalPlaces = UserDefaults.standard.integer(forKey: "DecimalPlaces").nonZero ?? 1
-            if parts.count > 1 && parts[1].count > maxDecimalPlaces {
-                return false
-            }
-        }
-
-        let allowedCharacters = CharacterSet.decimalDigits
-        let characterSet = CharacterSet(charactersIn: string)
-        return allowedCharacters.isSuperset(of: characterSet)
+        return type.validateNumeric(currentText: currentText, replacementString: string)
     }
     
 }
@@ -122,7 +99,7 @@ extension LabeledTextFieldView {
     }
     
     func setText(_ text: String?) {
-        let formattedText = formatText(text)
+        let formattedText = type == .numeric ? formatText(text) : text
         textField.text = formattedText
     }
     
@@ -132,19 +109,24 @@ extension LabeledTextFieldView {
     }
     
     private func setupBindings() {
-        textField.rx.text
-            .distinctUntilChanged()
-            .compactMap { [weak self] in
-                guard let self = self else { return nil }
-                return self.formatText($0)
-            }
-            .bind(to: formattedTextRelay)
-            .disposed(by: disposeBag)
-        
-        formattedTextRelay
-            .bind(to: textField.rx.text)
-            .disposed(by: disposeBag)
-        
+        if type == .name {
+            textField.rx.text
+                .bind(to: formattedTextRelay)
+                .disposed(by: disposeBag)
+        } else {
+            textField.rx.text
+                .distinctUntilChanged()
+                .compactMap { [weak self] in
+                    guard let self = self else { return nil }
+                    return self.formatText($0)
+                }
+                .bind(to: formattedTextRelay)
+                .disposed(by: disposeBag)
+            
+            formattedTextRelay
+                .bind(to: textField.rx.text)
+                .disposed(by: disposeBag)
+        }
     }
     
     private func validateAndFormatNumber(_ text: String, replacementString string: String? = nil) -> Bool {
@@ -204,6 +186,73 @@ extension LabeledTextFieldView {
         }
         
         return text
+    }
+    
+}
+
+extension LabeledTextFieldView {
+    
+    private func setupKeyboardToolbar() {
+        let toolbar = UIToolbar()
+        toolbar.sizeToFit()
+        
+        let previousButton = UIBarButtonItem(
+            title: "이전",
+            style: .plain,
+            target: self,
+            action: #selector(moveToPreviousField)
+        )
+        
+        let nextButton = UIBarButtonItem(
+            title: "다음",
+            style: .plain,
+            target: self,
+            action: #selector(moveToNextField)
+        )
+        
+        let flexSpace = UIBarButtonItem(systemItem: .flexibleSpace)
+        
+        let doneButton = UIBarButtonItem(
+            title: "완료",
+            style: .done,
+            target: self,
+            action: #selector(dismissKeyboard)
+        )
+        
+        toolbar.items = [previousButton, nextButton, flexSpace, doneButton]
+        textField.inputAccessoryView = toolbar
+        
+    }
+    
+    func setNavigationFields(previous: LabeledTextFieldView?, next: LabeledTextFieldView?) {
+        self.previousField = previous?.textField
+        self.nextField = next?.textField
+    }
+    
+}
+
+@objc
+private extension LabeledTextFieldView {
+    
+    private func textFieldDidBeginEditing() {
+        textField.layer.borderColor = UIColor.tintColor.cgColor
+        textField.layer.borderWidth = 1
+    }
+    
+    private func textFieldDidEndEditing() {
+        textField.layer.borderColor = UIColor.systemGray6.cgColor
+    }
+    
+    private func moveToPreviousField() {
+        previousField?.becomeFirstResponder()
+    }
+    
+    private func moveToNextField() {
+        nextField?.becomeFirstResponder()
+    }
+    
+    private func dismissKeyboard() {
+        textField.resignFirstResponder()
     }
     
 }
