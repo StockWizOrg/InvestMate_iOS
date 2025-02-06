@@ -193,8 +193,7 @@ extension LabeledTextFieldView {
 extension LabeledTextFieldView {
     
     private func setupKeyboardToolbar() {
-        let toolbar = UIToolbar()
-        toolbar.sizeToFit()
+        let toolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 44))
         
         let previousButton = UIBarButtonItem(
             title: "이전",
