@@ -26,7 +26,7 @@ public final class CreateStockReactor: Reactor {
     
     public enum Action {
         case setInitialStock(Stock?)
-        case updateName(String)
+        case updateName(String?)
         case updateAveragePrice(String?)
         case updateQuantity(String?)
         case updateTotalPrice(String?)
@@ -34,7 +34,7 @@ public final class CreateStockReactor: Reactor {
     }
     
     public enum Mutation {
-        case setName(String)
+        case setName(String?)
         case setStock(averagePrice: Double?, quantity: Double?, totalPrice: Double?)
         case setIsValid(Bool)
         case createComplete
@@ -42,7 +42,7 @@ public final class CreateStockReactor: Reactor {
     }
     
     public struct State {
-        var name: String = ""
+        var name: String?
         var averagePrice: Double?
         var quantity: Double?
         var totalPrice: Double?
@@ -134,9 +134,10 @@ public final class CreateStockReactor: Reactor {
         case .create:
             guard let price = currentState.averagePrice,
                   let quantity = currentState.quantity,
-                  !currentState.name.isEmpty else {
+                  let name = currentState.name,
+                  !name.isEmpty else {
                 print("❌ 유효성 검사 실패")
-                print("- 이름: \(currentState.name)")
+                print("- 이름: \(String(describing: currentState.name))")
                 print("- 가격: \(String(describing: currentState.averagePrice))")
                 print("- 수량: \(String(describing: currentState.quantity))")
                 return .empty()
@@ -145,11 +146,11 @@ public final class CreateStockReactor: Reactor {
             switch mode {
             case .create:
                 print("✅ 새로운 주식 생성")
-                print("- 이름: \(currentState.name)")
+                print("- 이름: \(name)")
                 print("- 가격: \(price)")
                 print("- 수량: \(quantity)")
                 return stockManager.addStock(
-                    name: currentState.name,
+                    name: name,
                     averagePrice: price,
                     quantity: quantity
                 )
@@ -162,12 +163,12 @@ public final class CreateStockReactor: Reactor {
                 guard let id = editingStockId else { return .empty() }
                 print("⚙️ 주식 정보 수정")
                 print("- ID: \(id)")
-                print("- 이름: \(currentState.name)")
+                print("- 이름: \(name)")
                 print("- 가격: \(price)")
                 print("- 수량: \(quantity)")
                 return stockManager.updateStock(
                     id: id,
-                    name: currentState.name,
+                    name: name,
                     averagePrice: price,
                     quantity: quantity
                 )
@@ -232,25 +233,27 @@ extension CreateStockReactor {
     }
     
     private func validateStockInput(
-        name: String,
+        name: String?,
         price: Double?,
         quantity: Double?,
         originalStock: Stock?
     ) -> Bool {
-        let hasValidValues = !name.isEmpty &&
-            price != nil && quantity != nil &&
-            price! > 0 && quantity! > 0
+        guard let name = name, !name.isEmpty,
+              let price = price, price > 0,
+              let quantity = quantity, quantity > 0 else {
+            return false
+        }
         
         if let original = originalStock {
             // 수정 모드: 값이 변경되었고 유효한 값인 경우만 true
             let hasChanges = name != original.name ||
-                price != original.averagePrice ||
-                quantity != original.quantity
+            price != original.averagePrice ||
+            quantity != original.quantity
             
-            return hasValidValues && hasChanges
+            return hasChanges
         } else {
             // 생성 모드: 유효한 값인 경우 true
-            return hasValidValues
+            return true
         }
     }
     

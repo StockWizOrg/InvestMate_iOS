@@ -11,7 +11,7 @@ import Domain
 import ReactorKit
 import RxSwift
 
-public class ProfitViewController: UIViewController {
+public class ProfitViewController: UIViewController, TextFieldNavigatable {
     
     public var disposeBag = DisposeBag()
     
@@ -22,6 +22,10 @@ public class ProfitViewController: UIViewController {
     private let salePriceView = LabeledTextFieldView(title: "매도단가", ofSize: 20, placeholder: "금액")
     private let dividerView = UIView()
     private let profitResultView = ProfitResultView()
+    
+    var textFields: [LabeledTextFieldView] {
+        return [averagePriceView, quantityView, salePriceView]
+    }
     
     public init(reactor: ProfitReactor) {
         super.init(nibName: nil, bundle: nil)
@@ -36,6 +40,7 @@ public class ProfitViewController: UIViewController {
         super.viewDidLoad()
         
         self.hideKeyboardWhenTappedAround()
+        setupTextFieldNavigation()
         setStyle()
         setUI()
         setLayout()

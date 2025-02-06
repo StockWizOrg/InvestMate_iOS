@@ -19,7 +19,8 @@ extension TextFieldNavigatable {
         for (index, field) in textFields.enumerated() {
             let previous = index > 0 ? textFields[index - 1] : nil
             let next = index < textFields.count - 1 ? textFields[index + 1] : nil
-            
+            field.setNavigationFields(previous: previous, next: next)
         }
     }
+    
 }
