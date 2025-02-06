@@ -11,19 +11,22 @@ import Domain
 import ReactorKit
 import RxSwift
 
-final class CreateStockViewController: UIViewController {
+final class CreateStockViewController: UIViewController, TextFieldNavigatable {
     
     private let mode: CreateStockReactor.Mode
     
     public var disposeBag = DisposeBag()
     
-    private let nameLabel = UILabel()
-    private let nameTextField = UITextField()
+    private let nameView = LabeledTextFieldView(title: "종목명", placeholder: "종목을 입력해주세요", type: .name)
     private let dividerView = UIView()
     private let averagePriceView = LabeledTextFieldView(title: "평균단가", placeholder: "금액")
     private let quantityView = LabeledTextFieldView(title: "수량", placeholder: "수량")
     private let totalPriceView = LabeledTextFieldView(title: "총 금액", placeholder: "금액")
     private let confirmButton = UIButton()
+    
+    var textFields: [LabeledTextFieldView] {
+        return [nameView, averagePriceView, quantityView, totalPriceView]
+    }
     
     init(reactor: CreateStockReactor, mode: CreateStockReactor.Mode = .create) {
         self.mode = mode
@@ -39,6 +42,7 @@ final class CreateStockViewController: UIViewController {
         super.viewDidLoad()
         
         self.hideKeyboardWhenTappedAround()
+        setupTextFieldNavigation()
         setStyle()
         setUI()
         setLayout()
@@ -46,28 +50,13 @@ final class CreateStockViewController: UIViewController {
         configureConfirmButton()
         
         if case .edit(let stock) = mode {
-            nameTextField.text = stock.name
+            nameView.setText(stock.name)
             reactor?.action.onNext(.setInitialStock(stock))
         }
     }
     
     private func setStyle() {
         view.backgroundColor = .systemGray6
-        
-        nameLabel.configureTitleLabel(
-            title: "종목명",
-            ofSize: 14,
-            weight: .semibold,
-            indent: 8
-        )
-        
-        nameTextField.configureNumericInputField(
-            placeholder: "종목을 입력해주세요",
-            fontSize: 14,
-            weight: .bold,
-            padding: 10
-        )
-        nameTextField.keyboardType = .default
         
         dividerView.configureDivider()
     }
@@ -93,8 +82,7 @@ final class CreateStockViewController: UIViewController {
     
     private func setUI() {
         view.addSubviews(
-            nameLabel,
-            nameTextField,
+            nameView,
             dividerView,
             averagePriceView,
             quantityView,
@@ -104,35 +92,33 @@ final class CreateStockViewController: UIViewController {
     }
     
     private func setLayout() {
+        let safeArea = view.safeAreaLayoutGuide
+        
         NSLayoutConstraint.activate([
-            nameLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
-            nameLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            nameView.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 20),
+            nameView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 16),
+            nameView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -16),
             
-            nameTextField.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 8),
-            nameTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            nameTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            nameTextField.heightAnchor.constraint(equalToConstant: 44),
-            
-            dividerView.topAnchor.constraint(equalTo: nameTextField.bottomAnchor, constant: 16),
-            dividerView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            dividerView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            dividerView.topAnchor.constraint(equalTo: nameView.bottomAnchor, constant: 16),
+            dividerView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 16),
+            dividerView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -16),
             dividerView.heightAnchor.constraint(equalToConstant: 1),
             
             averagePriceView.topAnchor.constraint(equalTo: dividerView.bottomAnchor, constant: 16),
-            averagePriceView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            averagePriceView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            averagePriceView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 16),
+            averagePriceView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -16),
             
             quantityView.topAnchor.constraint(equalTo: averagePriceView.bottomAnchor, constant: 16),
-            quantityView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            quantityView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            quantityView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 16),
+            quantityView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -16),
             
             totalPriceView.topAnchor.constraint(equalTo: quantityView.bottomAnchor, constant: 16),
-            totalPriceView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            totalPriceView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            totalPriceView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 16),
+            totalPriceView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -16),
             
             confirmButton.topAnchor.constraint(equalTo: totalPriceView.bottomAnchor, constant: 30),
-            confirmButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            confirmButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            confirmButton.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 16),
+            confirmButton.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -16),
             confirmButton.heightAnchor.constraint(equalToConstant: 50)
         ])
     }
@@ -147,7 +133,7 @@ extension CreateStockViewController: ReactorView {
     }
 
     private func bindInput(reactor: CreateStockReactor) {
-        nameTextField.rx.text.orEmpty
+        nameView.textObservable
             .map { Reactor.Action.updateName($0) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)

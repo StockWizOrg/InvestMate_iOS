@@ -11,7 +11,7 @@ import Domain
 import ReactorKit
 import RxSwift
 
-public class AdditionalPurchaseViewController: UIViewController {
+public class AdditionalPurchaseViewController: UIViewController, TextFieldNavigatable {
     
     private let scrollView = UIScrollView()
     private let contentView = UIView()
@@ -24,6 +24,10 @@ public class AdditionalPurchaseViewController: UIViewController {
     private let mainStackView = UIStackView()
     
     public var disposeBag = DisposeBag()
+    
+    var textFields: [LabeledTextFieldView] {
+        return holdingStockView.getTextFields() + additionalStockView.getTextFields()
+    }
     
     public init(reactor: AdditionalPurchaseReactor, calculator: StockCalculatorUseCase) {
         self.holdingStockView = CustomStockView(title: "현재 보유", calculator: calculator)
@@ -41,6 +45,7 @@ public class AdditionalPurchaseViewController: UIViewController {
         super.viewDidLoad()
         
         self.hideKeyboardWhenTappedAround()
+        setupTextFieldNavigation()
         setStyle()
         setUI()
         setLayout()

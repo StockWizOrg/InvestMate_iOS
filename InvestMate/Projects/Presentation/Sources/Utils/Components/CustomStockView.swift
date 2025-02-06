@@ -77,6 +77,10 @@ public final class CustomStockView: UIView {
         ])
     }
     
+    func getTextFields() -> [LabeledTextFieldView] {
+        return [averagePriceView, quantityView, totalPriceView]
+    }
+    
 }
 
 extension CustomStockView {
