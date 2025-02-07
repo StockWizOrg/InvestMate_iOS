@@ -47,7 +47,7 @@ public enum TextFieldType {
         if cleanText.contains(".") {
             let parts = cleanText.components(separatedBy: ".")
             let maxDecimalPlaces = UserDefaults.standard.integer(forKey: "DecimalPlaces").nonZero ?? 1
-            if parts.count > 1 && parts[1].count > maxDecimalPlaces {
+            if parts.count > 1 && parts[1].count >= maxDecimalPlaces {
                 return false
             }
         }
