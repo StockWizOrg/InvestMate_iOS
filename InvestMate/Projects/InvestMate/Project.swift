@@ -7,7 +7,7 @@ let project = Project(
             name: "InvestMate",
             destinations: .iOS,
             product: .app,
-            bundleId: "io.tuist.InvestMate",
+            bundleId: "io.hogeunjo.InvestMate",
             deploymentTargets: .iOS("17.5"),
             infoPlist: .extendingDefault(
                 with: [
@@ -25,6 +25,7 @@ let project = Project(
                             ]
                         ]
                     ],
+                    "CFBundleIconName": "AppIcon"
                 ]
             ),
             sources: ["Sources/**"],
@@ -33,7 +34,12 @@ let project = Project(
                 .project(target: "Presentation", path: "../Presentation"),
                 .project(target: "Domain", path: "../Domain"),
                 .project(target: "Data", path: "../Data")
-            ]
+            ],
+            settings: .settings(
+                base: [
+                    "TARGETED_DEVICE_FAMILY": "1"
+                ]
+            )
         ),
         
         .target(
