@@ -45,9 +45,9 @@ extension StockResultView {
         self.backgroundColor = .systemGray6
         
         titleLabel.configureTitleLabel(title: "최종 보유", ofSize: 20, weight: .bold)
-        averagePriceTitle.configureTitleLabel(title: "평균단가", ofSize: 14, weight: .semibold, indent: 8)
-        quantityTitle.configureTitleLabel(title: "수량", ofSize: 14, weight: .semibold, indent: 8)
-        totalPriceTitle.configureTitleLabel(title: "총 금액", ofSize: 14, weight: .semibold, indent: 8)
+        averagePriceTitle.configureTitleLabel(title: "평균단가", ofSize: 14, weight: .semibold)
+        quantityTitle.configureTitleLabel(title: "수량", ofSize: 14, weight: .semibold)
+        totalPriceTitle.configureTitleLabel(title: "총 금액", ofSize: 14, weight: .semibold)
         
         [averagePriceLabel, quantityLabel, totalPriceLabel].forEach {
             $0.layer.cornerRadius = 8

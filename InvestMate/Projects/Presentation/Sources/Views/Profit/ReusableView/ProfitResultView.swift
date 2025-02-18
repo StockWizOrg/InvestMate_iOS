@@ -35,9 +35,9 @@ final class ProfitResultView: UIView {
         self.backgroundColor = .systemGray6
         
         titleLabel.configureTitleLabel(title: "투자결과", ofSize: 20, weight: .bold)
-        profitTitleLabel.configureTitleLabel(title: "총손익", ofSize: 14, weight: .semibold, indent: 8)
-        purchaseTitleLabel.configureTitleLabel(title: "매수금액", ofSize: 14, weight: .semibold, indent: 8)
-        saleTitleLabel.configureTitleLabel(title: "매도금액", ofSize: 14, weight: .semibold, indent: 8)
+        profitTitleLabel.configureTitleLabel(title: "총손익", ofSize: 14, weight: .semibold)
+        purchaseTitleLabel.configureTitleLabel(title: "매수금액", ofSize: 14, weight: .semibold)
+        saleTitleLabel.configureTitleLabel(title: "매도금액", ofSize: 14, weight: .semibold)
         
         [totalProfitLabel, purchaseAmountLabel, saleAmountLabel].forEach {
             $0.layer.cornerRadius = 8
