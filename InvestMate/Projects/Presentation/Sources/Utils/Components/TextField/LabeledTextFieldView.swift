@@ -46,9 +46,9 @@ class LabeledTextFieldView: UIView {
     private func setStyle(title: String, ofSize: Int, placeholder: String) {
         
         if ofSize == 14 {
-            titleLabel.configureTitleLabel(title: title, ofSize: 14, weight: .semibold, indent: 8)
+            titleLabel.configureTitleLabel(title: title, ofSize: 14, weight: .semibold)
         } else if ofSize == 20 {
-            titleLabel.configureTitleLabel(title: title, ofSize: 20, weight: .bold, indent: 8)
+            titleLabel.configureTitleLabel(title: title, ofSize: 20, weight: .bold)
         }
         
         setupKeyboardToolbar()
