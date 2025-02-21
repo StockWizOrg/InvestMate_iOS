@@ -140,6 +140,10 @@ final class ProfitResultView: UIView {
         saleAmountLabel.setText(amount)
     }
     
+    func hideProfitRate() {
+        profitRateLabel.isHidden = true
+    }
+    
 }
 
 #if DEBUG

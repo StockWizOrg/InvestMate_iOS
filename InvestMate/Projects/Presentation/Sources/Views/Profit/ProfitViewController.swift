@@ -154,6 +154,8 @@ extension ProfitViewController: ReactorView {
                 // 수익률 업데이트
                 if let rate = info.profitRate {
                     self?.profitResultView.updateProfitRate(rate: rate)
+                } else {
+                    self?.profitResultView.hideProfitRate()
                 }
                 
                 // 총 손익 업데이트
