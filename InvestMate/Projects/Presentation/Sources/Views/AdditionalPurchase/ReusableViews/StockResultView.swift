@@ -46,7 +46,7 @@ extension StockResultView {
         self.backgroundColor = .systemGray6
         
         titleLabel.configureTitleLabel(
-            title: "Final holdings",
+            title: String(localized: "Final holdings", bundle: .module),
             ofSize: 20,
             weight: .bold
         )

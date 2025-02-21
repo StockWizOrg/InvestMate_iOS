@@ -273,6 +273,22 @@
         }
       }
     },
+    "Final holdings" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最終保有"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "최종보유"
+          }
+        }
+      }
+    },
     "Holdings" : {
       "localizations" : {
         "ja" : {
