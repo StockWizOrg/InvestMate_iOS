@@ -45,16 +45,16 @@ public final class MainTabBarController: UITabBarController {
         )
         let additionalPurchaseNav = UINavigationController(rootViewController: additionalPurchaseVC)
         additionalPurchaseVC.tabBarItem = UITabBarItem(
-            title: "추가 매수",
+            title: String(localized: "Avg Down", bundle: .module),
             image: UIImage(systemName: "plus.circle"),
-            selectedImage: UIImage(systemName: "plus.circle.fill")
+            selectedImage: UIImage(systemName: "plus.circle")
         )
         
         // 수익 계산 탭
         let profitVC = ProfitViewController(reactor: ProfitReactor(calculator: profitCalculator))
         let profitNav = UINavigationController(rootViewController: profitVC)
         profitVC.tabBarItem = UITabBarItem(
-            title: "수익 계산",
+            title: String(localized: "Profit", bundle: .module),
             image: UIImage(systemName: "chart.line.uptrend.xyaxis"),
             selectedImage: UIImage(systemName: "chart.line.uptrend.xyaxis")
         )
@@ -66,7 +66,7 @@ public final class MainTabBarController: UITabBarController {
         )
         let stockListNav = UINavigationController(rootViewController: stockListVC)
         stockListNav.tabBarItem = UITabBarItem(
-            title: "종목 관리",
+            title: String(localized: "Holdings", bundle: .module),
             image: UIImage(systemName: "list.bullet"),
             selectedImage: UIImage(systemName: "list.bullet")
         )
@@ -75,7 +75,7 @@ public final class MainTabBarController: UITabBarController {
         let moreMenuVC = MoreMenuViewController()
         let moreMenuNav = UINavigationController(rootViewController: moreMenuVC)
         moreMenuNav.tabBarItem = UITabBarItem(
-            title: "더보기",
+            title: String(localized: "More", bundle: .module),
             image: UIImage(systemName: "ellipsis"),
             selectedImage: UIImage(systemName: "ellipsis")
         )

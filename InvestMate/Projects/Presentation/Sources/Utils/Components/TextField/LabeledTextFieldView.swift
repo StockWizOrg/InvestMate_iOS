@@ -196,14 +196,17 @@ extension LabeledTextFieldView {
         let toolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 44))
         
         let previousButton = UIBarButtonItem(
-            title: "이전",
+            image: UIImage(systemName: "chevron.left"),
             style: .plain,
             target: self,
             action: #selector(moveToPreviousField)
         )
         
+        let spaceBetweenButtons = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
+        spaceBetweenButtons.width = 16
+        
         let nextButton = UIBarButtonItem(
-            title: "다음",
+            image: UIImage(systemName: "chevron.right"),
             style: .plain,
             target: self,
             action: #selector(moveToNextField)
@@ -212,13 +215,13 @@ extension LabeledTextFieldView {
         let flexSpace = UIBarButtonItem(systemItem: .flexibleSpace)
         
         let doneButton = UIBarButtonItem(
-            title: "완료",
+            title: String(localized: "Done", bundle: .module),
             style: .done,
             target: self,
             action: #selector(dismissKeyboard)
         )
         
-        toolbar.items = [previousButton, nextButton, flexSpace, doneButton]
+        toolbar.items = [previousButton, spaceBetweenButtons, nextButton, flexSpace, doneButton]
         textField.inputAccessoryView = toolbar
         
     }

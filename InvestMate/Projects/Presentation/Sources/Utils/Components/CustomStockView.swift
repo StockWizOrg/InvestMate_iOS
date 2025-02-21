@@ -13,9 +13,18 @@ import RxSwift
 public final class CustomStockView: UIView {
     
     private let titleLabel = UILabel()
-    private let averagePriceView = LabeledTextFieldView(title: "평균단가", placeholder: "금액")
-    private let quantityView = LabeledTextFieldView(title: "수량", placeholder: "수량")
-    private let totalPriceView = LabeledTextFieldView(title: "총 금액", placeholder: "금액")
+    private let averagePriceView = LabeledTextFieldView(
+        title: String(localized: "Average Price", bundle: .module),
+        placeholder: String(localized: "Amount", bundle: .module)
+    )
+    private let quantityView = LabeledTextFieldView(
+        title: String(localized: "Quantity", bundle: .module),
+        placeholder: String(localized: "Quantity", bundle: .module)
+    )
+    private let totalPriceView = LabeledTextFieldView(
+        title: String(localized: "Total Amount", bundle: .module),
+        placeholder: String(localized: "Amount", bundle: .module)
+    )
     private let horizontalStackView = UIStackView()
     private let verticalStackView = UIStackView()
     
@@ -68,7 +77,7 @@ public final class CustomStockView: UIView {
             titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: 8),
             titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
             titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
-            titleLabel.heightAnchor.constraint(equalToConstant: 20),
+            titleLabel.heightAnchor.constraint(equalToConstant: 24),
             
             verticalStackView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
             verticalStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),

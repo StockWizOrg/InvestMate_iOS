@@ -34,10 +34,28 @@ final class ProfitResultView: UIView {
     private func setStyle() {
         self.backgroundColor = .systemGray6
         
-        titleLabel.configureTitleLabel(title: "투자결과", ofSize: 20, weight: .bold)
-        profitTitleLabel.configureTitleLabel(title: "총손익", ofSize: 14, weight: .semibold)
-        purchaseTitleLabel.configureTitleLabel(title: "매수금액", ofSize: 14, weight: .semibold)
-        saleTitleLabel.configureTitleLabel(title: "매도금액", ofSize: 14, weight: .semibold)
+        titleLabel.configureTitleLabel(
+            title: String(localized: "Investment Result", bundle: .module),
+            ofSize: 20,
+            weight: .bold
+        )
+        profitTitleLabel.configureTitleLabel(
+            title: String(localized: "Profit/Loss", bundle: .module),
+            ofSize: 14,
+            weight: .semibold
+        )
+        profitTitleLabel.numberOfLines = 1
+        
+        purchaseTitleLabel.configureTitleLabel(
+            title: String(localized: "Purchase Amount", bundle: .module),
+            ofSize: 14,
+            weight: .semibold
+        )
+        saleTitleLabel.configureTitleLabel(
+            title: String(localized: "Sale Amount", bundle: .module),
+            ofSize: 14,
+            weight: .semibold
+        )
         
         [totalProfitLabel, purchaseAmountLabel, saleAmountLabel].forEach {
             $0.layer.cornerRadius = 8
@@ -69,9 +87,9 @@ final class ProfitResultView: UIView {
             titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
             titleLabel.heightAnchor.constraint(equalToConstant: 24),
             
-            profitTitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
+            profitTitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 16),
             profitTitleLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
-            profitTitleLabel.widthAnchor.constraint(equalToConstant: 50),
+            profitTitleLabel.widthAnchor.constraint(equalToConstant: 80),
             
             totalProfitLabel.topAnchor.constraint(equalTo: profitTitleLabel.bottomAnchor, constant: 8),
             totalProfitLabel.leadingAnchor.constraint(equalTo: leadingAnchor),

@@ -15,7 +15,7 @@ final class ScrollableLabel: UIView {
     private let label = UILabel()
     
     
-    init(placeholder: String = "금액") {
+    init(placeholder: String = String(localized: "Amount", bundle: .module)) {
         self.placeholder = placeholder
         super.init(frame: .zero)
         

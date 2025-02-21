@@ -44,12 +44,12 @@ class MoreMenuViewController: UIViewController {
     
 
     private func setStyle() {
-        self.title = "더보기"
+        self.title = String(localized: "More", bundle: .module)
         self.view.backgroundColor = .systemGray6
         scrollView.showsVerticalScrollIndicator = false
         
         versionTitleLabel.configureTitleLabel(
-            title: "앱 버전 정보",
+            title: String(localized: "App Version Info", bundle: .module),
             ofSize: 16,
             weight: .bold
         )
@@ -62,38 +62,38 @@ class MoreMenuViewController: UIViewController {
         versionValueLabel.textColor = .systemGray
 
         settingsTitleLabel.configureTitleLabel(
-            title: "설정",
+            title: String(localized: "Settings", bundle: .module),
             ofSize: 16,
             weight: .bold
         )
         
         infoTitleLabel.configureTitleLabel(
-            title: "정보 표시 설정",
+            title: String(localized: "Information Display Settings", bundle: .module),
             ofSize: 14,
             weight: .regular
         )
         infoTitleLabel.textColor = .black
         
         customerSupportLabel.configureTitleLabel(
-            title: "고객 지원",
+            title: String(localized: "Customer Support", bundle: .module),
             ofSize: 16,
             weight: .bold
         )
         
         contactUsTitleLabel.configureTitleLabel(
-            title: "서비스 이용 문의",
+            title: String(localized: "Contact Us", bundle: .module),
             ofSize: 14,
             weight: .regular
         )
         
         rateAppTitleLabel.configureTitleLabel(
-            title: "앱스토어 리뷰",
+            title: String(localized: "Rate This App", bundle: .module),
             ofSize: 14,
             weight: .regular
         )
         
         shareAppTitleLabel.configureTitleLabel(
-            title: "앱 추천하기",
+            title: String(localized: "Share App", bundle: .module),
             ofSize: 14,
             weight: .regular
         )
@@ -194,11 +194,11 @@ class MoreMenuViewController: UIViewController {
     }
     
     private func configureButtons() {
-        decimalDisplayButton.configureMoreMenuButton(title: "소수점 표시")
+        decimalDisplayButton.configureMoreMenuButton(title:  String(localized: "Decimal Display", bundle: .module))
         decimalDisplayButton.menu = makeDecimalDisplayMenu()
         decimalDisplayButton.showsMenuAsPrimaryAction = true
         
-        contactUsButton.configureMoreMenuButton(title: "문의하기")
+        contactUsButton.configureMoreMenuButton(title: String(localized: "Ask a Question", bundle: .module))
         contactUsButton.addAction(
             UIAction { [weak self] _ in
                 self?.handleContactUs()
@@ -206,7 +206,7 @@ class MoreMenuViewController: UIViewController {
             for: .touchUpInside
         )
         
-        rateAppButton.configureMoreMenuButton(title: "평가하기")
+        rateAppButton.configureMoreMenuButton(title: String(localized: "Write a Review", bundle: .module))
         rateAppButton.addAction(
             UIAction { [weak self] _ in
                 self?.handleRateApp()
@@ -214,7 +214,7 @@ class MoreMenuViewController: UIViewController {
             for: .touchUpInside
         )
         
-        shareAppButton.configureMoreMenuButton(title: "공유하기")
+        shareAppButton.configureMoreMenuButton(title: String(localized: "Recommend This App", bundle: .module))
         shareAppButton.addAction(
             UIAction { [weak self] _ in
                 self?.handleShare()

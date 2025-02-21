@@ -9,6 +9,10 @@ import ProjectDescription
 
 let project = Project(
     name: "Presentation",
+    options: .options(
+        defaultKnownRegions: ["en", "ko", "ja"],
+        developmentRegion: "en"
+    ),
     targets: [
         .target(
             name: "Presentation",
@@ -17,12 +21,20 @@ let project = Project(
             bundleId: "io.tuist.Presentation",
             deploymentTargets: .iOS("17.5"),
             sources: "Sources/**",
+            resources: [
+                "Resources/**"
+            ],
             dependencies: [
                 .project(target: "Domain", path: "../Domain"),
                 .external(name: "RxSwift"),
                 .external(name: "RxCocoa"),
                 .external(name: "ReactorKit")
-            ]
+            ],
+            settings: .settings(
+                base: [
+                    "SWIFT_EMIT_LOC_STRINGS": "YES"
+                ]
+            )
         )
     ]
 )

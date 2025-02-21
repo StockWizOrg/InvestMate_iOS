@@ -15,7 +15,7 @@ public final class StockResultView: UIView {
     private let averagePriceTitle = UILabel()
     private let averagePriceLabel = ScrollableLabel()
     private let quantityTitle = UILabel()
-    private let quantityLabel = ScrollableLabel(placeholder: "수량")
+    private let quantityLabel = ScrollableLabel(placeholder: String(localized: "Quantity", bundle: .module))
     private let totalPriceTitle = UILabel()
     private let totalPriceLabel = ScrollableLabel()
     
@@ -31,6 +31,7 @@ public final class StockResultView: UIView {
         setStyle()
         setUI()
         setLayout()
+        
     }
     
     required init?(coder: NSCoder) {
@@ -44,10 +45,26 @@ extension StockResultView {
     private func setStyle() {
         self.backgroundColor = .systemGray6
         
-        titleLabel.configureTitleLabel(title: "최종 보유", ofSize: 20, weight: .bold)
-        averagePriceTitle.configureTitleLabel(title: "평균단가", ofSize: 14, weight: .semibold)
-        quantityTitle.configureTitleLabel(title: "수량", ofSize: 14, weight: .semibold)
-        totalPriceTitle.configureTitleLabel(title: "총 금액", ofSize: 14, weight: .semibold)
+        titleLabel.configureTitleLabel(
+            title: "Final holdings",
+            ofSize: 20,
+            weight: .bold
+        )
+        averagePriceTitle.configureTitleLabel(
+            title: String(localized: "Average Price", bundle: .module),
+            ofSize: 14,
+            weight: .semibold
+        )
+        quantityTitle.configureTitleLabel(
+            title: String(localized: "Quantity", bundle: .module),
+            ofSize: 14,
+            weight: .semibold
+        )
+        totalPriceTitle.configureTitleLabel(
+            title: String(localized: "Total Amount", bundle: .module),
+            ofSize: 14,
+            weight: .semibold
+        )
         
         [averagePriceLabel, quantityLabel, totalPriceLabel].forEach {
             $0.layer.cornerRadius = 8
