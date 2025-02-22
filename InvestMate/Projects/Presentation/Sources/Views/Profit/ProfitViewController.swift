@@ -17,9 +17,21 @@ public class ProfitViewController: UIViewController, TextFieldNavigatable {
     
     private let scrollView = UIScrollView()
     private let contentView = UIView()
-    private let averagePriceView = LabeledTextFieldView(title: "매수단가", ofSize: 20, placeholder: "금액")
-    private let quantityView = LabeledTextFieldView(title: "매도수량", ofSize: 20, placeholder: "수량")
-    private let salePriceView = LabeledTextFieldView(title: "매도단가", ofSize: 20, placeholder: "금액")
+    private let averagePriceView = LabeledTextFieldView(
+        title: String(localized: "Purchase Price", bundle: .module),
+        ofSize: 20,
+        placeholder: String(localized: "Amount", bundle: .module)
+    )
+    private let quantityView = LabeledTextFieldView(
+        title: String(localized: "Sale Quantity", bundle: .module),
+        ofSize: 20,
+        placeholder: String(localized: "Quantity", bundle: .module)
+    )
+    private let salePriceView = LabeledTextFieldView(
+        title: String(localized: "Sale Price", bundle: .module),
+        ofSize: 20,
+        placeholder: String(localized: "Amount", bundle: .module)
+    )
     private let dividerView = UIView()
     private let profitResultView = ProfitResultView()
     
@@ -47,7 +59,7 @@ public class ProfitViewController: UIViewController, TextFieldNavigatable {
     }
     
     private func setStyle() {
-        self.title = "수익"
+        self.title = String(localized: "Profit", bundle: .module)
         self.view.backgroundColor = .systemGray6
         scrollView.showsVerticalScrollIndicator = false
         
@@ -142,6 +154,8 @@ extension ProfitViewController: ReactorView {
                 // 수익률 업데이트
                 if let rate = info.profitRate {
                     self?.profitResultView.updateProfitRate(rate: rate)
+                } else {
+                    self?.profitResultView.hideProfitRate()
                 }
                 
                 // 총 손익 업데이트

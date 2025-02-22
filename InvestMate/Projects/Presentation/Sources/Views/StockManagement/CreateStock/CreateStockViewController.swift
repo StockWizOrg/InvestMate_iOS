@@ -17,11 +17,24 @@ final class CreateStockViewController: UIViewController, TextFieldNavigatable {
     
     public var disposeBag = DisposeBag()
     
-    private let nameView = LabeledTextFieldView(title: "종목명", placeholder: "종목을 입력해주세요", type: .name)
+    private let nameView = LabeledTextFieldView(
+        title: String(localized: "Name", bundle: .module),
+        placeholder: String(localized: "Enter Name", bundle: .module),
+        type: .name
+    )
     private let dividerView = UIView()
-    private let averagePriceView = LabeledTextFieldView(title: "평균단가", placeholder: "금액")
-    private let quantityView = LabeledTextFieldView(title: "수량", placeholder: "수량")
-    private let totalPriceView = LabeledTextFieldView(title: "총 금액", placeholder: "금액")
+    private let averagePriceView = LabeledTextFieldView(
+        title: String(localized: "Average Price", bundle: .module),
+        placeholder: String(localized: "Amount", bundle: .module)
+    )
+    private let quantityView = LabeledTextFieldView(
+        title: String(localized: "Quantity", bundle: .module),
+        placeholder: String(localized: "Quantity", bundle: .module)
+    )
+    private let totalPriceView = LabeledTextFieldView(
+        title: String(localized: "Total Amount", bundle: .module),
+        placeholder: String(localized: "Amount", bundle: .module)
+    )
     private let confirmButton = UIButton()
     
     var textFields: [LabeledTextFieldView] {
@@ -62,7 +75,7 @@ final class CreateStockViewController: UIViewController, TextFieldNavigatable {
     }
     
     private func configureNavigationTitle() {
-        title = mode == .create ? "종목 추가" : "종목 수정"
+        title = mode == .create ? String(localized: "Add Stock", bundle: .module) : String(localized: "Edit Stock", bundle: .module)
     }
     
     private func configureConfirmButton() {
@@ -71,7 +84,7 @@ final class CreateStockViewController: UIViewController, TextFieldNavigatable {
         config.baseForegroundColor = .white
         config.baseBackgroundColor = .black
         
-        let buttonTitle = mode == .create ? "추가하기" : "수정하기"
+        let buttonTitle = mode == .create ? "Add" : "Edit"
         let attributes =  AttributeContainer([
             .font: UIFont.systemFont(ofSize: 16, weight: .semibold)
         ])

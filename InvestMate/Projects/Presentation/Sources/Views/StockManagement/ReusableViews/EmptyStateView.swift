@@ -36,7 +36,7 @@ class EmptyStateView: UIView {
         backgroundColor = .systemGray6
         
         messageLabel.configureTitleLabel(
-            title: "등록된 종목이 없습니다.",
+            title: String(localized: "No Registered Stocks", bundle: .module),
             ofSize: 16,
             weight: .medium
         )
@@ -54,7 +54,7 @@ class EmptyStateView: UIView {
             .font: UIFont.systemFont(ofSize: 16, weight: .semibold)
         ])
         
-        config.attributedTitle = AttributedString("새 종목 등록하기", attributes: attributes)
+        config.attributedTitle = AttributedString(String(localized: "Register New Stock", bundle: .module), attributes: attributes)
         addButton.configuration = config
     }
     

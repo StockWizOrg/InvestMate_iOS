@@ -30,8 +30,14 @@ public class AdditionalPurchaseViewController: UIViewController, TextFieldNaviga
     }
     
     public init(reactor: AdditionalPurchaseReactor, calculator: StockCalculatorUseCase) {
-        self.holdingStockView = CustomStockView(title: "현재 보유", calculator: calculator)
-        self.additionalStockView = CustomStockView(title: "추가 매수", calculator: calculator)
+        self.holdingStockView = CustomStockView(
+            title: String(localized: "Current Holdings", bundle: .module),
+            calculator: calculator
+        )
+        self.additionalStockView = CustomStockView(
+            title: String(localized: "Average Down", bundle: .module),
+            calculator: calculator
+        )
         super.init(nibName: nil, bundle: nil)
         self.reactor = reactor
     }
@@ -52,13 +58,14 @@ public class AdditionalPurchaseViewController: UIViewController, TextFieldNaviga
     }
     
     private func setStyle() {
-        self.title = "추가 매수"
+        self.title = String(localized: "Average Down", bundle: .module)
+        self.tabBarItem.title = String(localized: "Avg Down", bundle: .module)
         self.view.backgroundColor = .systemGray6
         scrollView.showsVerticalScrollIndicator = false
         
         dividerView.configureDivider()
         
-        topStackView.configureStackView(distribution: .fillEqually, spacing: 12)
+        topStackView.configureStackView(distribution: .fillEqually, spacing: 0)
         
         mainStackView.configureStackView(
             distribution: .fill,
@@ -229,10 +236,10 @@ extension AdditionalPurchaseViewController: ReactorView {
     
 }
 
-//#if DEBUG
-//import SwiftUI
-//
-//#Preview {
-//    AdditionalPurchaseViewController(reactor: AdditionalPurchaseReactor(calculator: StockCalculatorImpl()), calculator: StockCalculatorImpl()).toPreview()
-//}
-//#endif
+#if DEBUG
+import SwiftUI
+
+#Preview {
+    AdditionalPurchaseViewController(reactor: AdditionalPurchaseReactor(calculator: StockCalculatorImpl()), calculator: StockCalculatorImpl()).toPreview()
+}
+#endif

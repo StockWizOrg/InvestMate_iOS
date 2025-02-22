@@ -44,7 +44,7 @@ public final class StockListViewController: UIViewController {
     }
     
     private func setStyle() {
-        title = "보유 종목"
+        title = String(localized: "Holdings", bundle: .module)
         
         tableView.register(StockCell.self, forCellReuseIdentifier: StockCell.identifier)
         tableView.backgroundColor = .systemGray6
@@ -79,19 +79,19 @@ public final class StockListViewController: UIViewController {
     private func showActionSheet(for stock: Stock) {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
-        let additionalPurchase = UIAlertAction(title: "추가 매수", style: .default) { [weak self] _ in
+        let additionalPurchase = UIAlertAction(title: String(localized: "Average Down", bundle: .module), style: .default) { [weak self] _ in
             self?.navigateToAdditionalPurchase(with: stock)
         }
         
-        let edit = UIAlertAction(title: "수정", style: .default) { [weak self] _ in
+        let edit = UIAlertAction(title: String(localized: "Edit", bundle: .module), style: .default) { [weak self] _ in
             self?.navigateToEditStock(stock: stock)
         }
         
-        let delete = UIAlertAction(title: "삭제", style: .destructive) { [weak self] _ in
+        let delete = UIAlertAction(title: String(localized: "Delete", bundle: .module), style: .destructive) { [weak self] _ in
             self?.reactor?.action.onNext(.deleteStock(stock.id))
         }
         
-        let cancel = UIAlertAction(title: "취소", style: .cancel)
+        let cancel = UIAlertAction(title: String(localized: "Cancel", bundle: .module), style: .cancel)
         
         [ edit, additionalPurchase, delete, cancel ].forEach { alert.addAction($0) }
         
