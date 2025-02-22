@@ -11,6 +11,7 @@ let project = Project(
             deploymentTargets: .iOS("17.5"),
             infoPlist: .extendingDefault(
                 with: [
+                    "CFBundleAllowMixedLocalizations": true,
                     "CFBundleShortVersionString": "1.0.0",
                     "CFBundleVersion": "3",
                     "UILaunchStoryboardName": "LaunchScreen.storyboard",
