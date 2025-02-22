@@ -31,7 +31,7 @@ class MoreMenuViewController: UIViewController {
     
     let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "Unknown"
     let buildNumber = Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? "Unknown"
-    let appID = "idYOUR_APP_ID"
+    let appID = "6741756312"
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -230,7 +230,7 @@ extension MoreMenuViewController {
     private func makeDecimalDisplayMenu() -> UIMenu {
         let actions = [1, 2, 3, 4, 5, 6].map { places in
             UIAction(
-                title: "\(places) 자리",
+                title: String(localized: "\(places) digits", bundle: .module),
                 state: isCurrentDecimalPlaces(places) ? .on : .off
             ) { _ in
                 Double.updateDecimalPlaces(places)
@@ -238,7 +238,7 @@ extension MoreMenuViewController {
             }
         }
         
-        return UIMenu(title: "소수점 자릿수 설정", children: actions)
+        return UIMenu(title: String(localized: "Decimal Places Settings", bundle: .module), children: actions)
     }
     
     private func isCurrentDecimalPlaces(_ places: Int) -> Bool {
@@ -252,11 +252,11 @@ extension MoreMenuViewController {
             mailComposeVC.mailComposeDelegate = self
             
             mailComposeVC.setToRecipients(["josama2022.dev@gmail.com"])
-            mailComposeVC.setSubject("[InvestMate] 문의하기")
+            mailComposeVC.setSubject("[InvestMate] \(String(localized: "Contact Us", bundle: .module))")
             
             let deviceInfo = """
                 
-                이곳에 내용을 작성해주세요
+                \(String(localized: "Please write your message here.", bundle: .module))
                 
                 
                 ================================
@@ -275,17 +275,15 @@ extension MoreMenuViewController {
     
     private func showMailErrorAlert() {
         let alert = UIAlertController(
-            title: "메일 계정 활성화 필요",
-            message: "Mail 앱에서 사용자의 Email을 계정을 설정해 주세요.",
+            title: String(localized: "Email Account Required", bundle: .module),
+            message: String(localized: "Please configure your email account in the Mail app.", bundle: .module),
             preferredStyle: .alert
         )
-        alert.addAction(UIAlertAction(title: "확인", style: .default))
+        alert.addAction(UIAlertAction(title: String(localized: "Confirm", bundle: .module), style: .default))
         present(alert, animated: true)
     }
     
     private func handleRateApp() {
-        // TODO: 실제 앱 ID로 교체하기
-        
         guard let url = URL(string: "https://apps.apple.com/app/id\(appID)?action=write-review") else {
             return
         }
@@ -297,8 +295,8 @@ extension MoreMenuViewController {
         let appStoreURL = "https://apps.apple.com/app/id\(appID)?action=write-review"
         let message = """
                 [InvestMate]
-                주식 물타기 계산기 📈
-                합리적인 매수 전략을 세워보세요!
+                \(String(localized: "Stock Averaging Calculator", bundle: .module)) 📈
+                \(String(localized: "Plan a rational buying strategy!", bundle: .module))
                 
                 """
         

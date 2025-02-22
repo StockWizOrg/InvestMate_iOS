@@ -1,6 +1,22 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "%lld digits" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld桁"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld 자리"
+          }
+        }
+      }
+    },
     "Add Stock" : {
       "localizations" : {
         "ja" : {
@@ -129,6 +145,22 @@
         }
       }
     },
+    "Confirm" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "確認"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "확인"
+          }
+        }
+      }
+    },
     "Contact Us" : {
       "localizations" : {
         "ja" : {
@@ -193,6 +225,22 @@
         }
       }
     },
+    "Decimal Places Settings" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "小数点の設定"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "소수점 자릿수 설정"
+          }
+        }
+      }
+    },
     "Delete" : {
       "localizations" : {
         "ja" : {
@@ -253,6 +301,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "종목 수정"
+          }
+        }
+      }
+    },
+    "Email Account Required" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "メールアカウントの有効化が必要です"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "메일 계정 활성화 필요"
           }
         }
       }
@@ -381,6 +445,54 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "등록된 종목이 없습니다"
+          }
+        }
+      }
+    },
+    "Plan a rational buying strategy!" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "合理的な購入戦略を立てましょう！"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "합리적인 매수 전략을 세워보세요!"
+          }
+        }
+      }
+    },
+    "Please configure your email account in the Mail app." : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mailアプリでメールアカウントを設定してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mail 앱에서 사용자의 Email 계정을 설정해 주세요."
+          }
+        }
+      }
+    },
+    "Please write your message here." : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ここに内容を入力してください。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이곳에 내용을 작성해주세요"
           }
         }
       }
@@ -589,6 +701,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "앱 추천하기"
+          }
+        }
+      }
+    },
+    "Stock Averaging Calculator" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "株式ナンピン計算機"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "주식 물타기 계산기"
           }
         }
       }
