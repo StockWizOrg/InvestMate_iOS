@@ -93,6 +93,10 @@ public final class StockListViewController: UIViewController {
         
         let cancel = UIAlertAction(title: String(localized: "Cancel", bundle: .module), style: .cancel)
         
+        [additionalPurchase, edit, cancel].forEach {
+            $0.setValue(UIColor.systemBlue, forKey: "titleTextColor")
+        }
+        
         [ edit, additionalPurchase, delete, cancel ].forEach { alert.addAction($0) }
         
         present(alert, animated: true)
