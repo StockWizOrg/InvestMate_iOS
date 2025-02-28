@@ -353,6 +353,28 @@
         }
       }
     },
+    "Holding Quantity" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quantity"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "保有数量"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "보유 수량"
+          }
+        }
+      }
+    },
     "Holdings" : {
       "localizations" : {
         "ja" : {
@@ -733,6 +755,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "총 금액"
+          }
+        }
+      }
+    },
+    "Total Amount1" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Total Amount"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最終金額"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "최종 금액"
           }
         }
       }

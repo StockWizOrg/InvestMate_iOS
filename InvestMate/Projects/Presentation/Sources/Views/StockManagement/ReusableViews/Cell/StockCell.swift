@@ -27,9 +27,9 @@ public final class StockCell: UITableViewCell {
     private let stockNameLabel = UILabel()
     private let dividerView = UIView()
     private let menuButton = UIButton()
-    private let quantityContentView = StockCellContentView(title: "보유수량")
-    private let averagePriceContentView = StockCellContentView(title: "평균단가")
-    private let totalContentView = StockCellContentView(title: "최종보유")
+    private let quantityContentView = StockCellContentView(title: String(localized: "Holding Quantity", bundle: .module))
+    private let averagePriceContentView = StockCellContentView(title: String(localized: "Average Price", bundle: .module))
+    private let totalContentView = StockCellContentView(title:  String(localized: "Total Amount1", bundle: .module))
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
