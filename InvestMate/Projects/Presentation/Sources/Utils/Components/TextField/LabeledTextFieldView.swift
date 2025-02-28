@@ -129,31 +129,6 @@ extension LabeledTextFieldView {
         }
     }
     
-    private func validateAndFormatNumber(_ text: String, replacementString string: String? = nil) -> Bool {
-        let cleanText = text.replacingOccurrences(of: ",", with: "")
-        
-        // 빈 텍스트 처리
-        if text.isEmpty {
-            return true
-        }
-        
-        // 소수점 검증
-        if let input = string, input == "." {
-            let hasDot = cleanText.contains(".")
-            return !hasDot && cleanText != "."
-        }
-        
-        // 소수점 자릿수 검증
-        if cleanText.contains(".") {
-            let parts = cleanText.components(separatedBy: ".")
-            if parts.count > 1 && parts[1].count > 2 {
-                return false
-            }
-        }
-        
-        return true
-    }
-    
     private func formatText(_ text: String?) -> String? {
         guard let text = text, !text.isEmpty else { return "" }
         let cleanText = text.replacingOccurrences(of: ",", with: "")

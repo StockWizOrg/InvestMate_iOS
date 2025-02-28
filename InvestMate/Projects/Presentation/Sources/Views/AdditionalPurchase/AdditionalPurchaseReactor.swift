@@ -23,6 +23,7 @@ public final class AdditionalPurchaseReactor: Reactor {
         case updateAdditionalQuantity(Double?)
         case updateAdditionalTotal(Double?)
         
+        case clearInputFields
         case setInitialStock(Stock)
     }
     
@@ -30,6 +31,7 @@ public final class AdditionalPurchaseReactor: Reactor {
         case updateHolding(StockInfoState)
         case updateAdditional(StockInfoState)
         case updateFinal(StockInfoState?)
+        case clearInputs
         case resetAdditional
     }
     
@@ -229,6 +231,10 @@ public final class AdditionalPurchaseReactor: Reactor {
             
             return calculateFinalIfPossible(additional: additional)
             
+        case .clearInputFields:
+            return .just(.clearInputs)
+            
+            
         case let .setInitialStock(stock):
             let holding = StockInfoState(
                 averagePrice: stock.averagePrice,
@@ -285,6 +291,12 @@ public final class AdditionalPurchaseReactor: Reactor {
         case .resetAdditional:
             newState.additional = StockInfoState()
             newState.final = nil
+        case .clearInputs:
+            newState.holding = StockInfoState()
+            newState.additional = StockInfoState()
+            newState.final = nil
+            return newState
+            
         }
         
         return newState

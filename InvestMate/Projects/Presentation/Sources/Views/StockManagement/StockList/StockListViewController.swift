@@ -187,6 +187,7 @@ extension StockListViewController: StockListRefreshDelegate {
            let navigationController = tabBarController.viewControllers?[0] as? UINavigationController,
            let additionalPurchaseVC = navigationController.viewControllers.first as? AdditionalPurchaseViewController {
             
+            additionalPurchaseVC.reactor?.action.onNext(.clearInputFields)
             additionalPurchaseVC.reactor?.action.onNext(.setInitialStock(stock))
             
             tabBarController.selectedIndex = 0
