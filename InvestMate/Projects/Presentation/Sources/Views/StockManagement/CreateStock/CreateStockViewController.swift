@@ -84,7 +84,7 @@ final class CreateStockViewController: UIViewController, TextFieldNavigatable {
         config.baseForegroundColor = .white
         config.baseBackgroundColor = .black
         
-        let buttonTitle = mode == .create ? "Add" : "Edit"
+        let buttonTitle = mode == .create ? String(localized: "Add Stock", bundle: .module) : String(localized: "Edit Stock", bundle: .module)
         let attributes =  AttributeContainer([
             .font: UIFont.systemFont(ofSize: 16, weight: .semibold)
         ])

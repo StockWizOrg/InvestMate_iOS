@@ -221,6 +221,10 @@ extension LabeledTextFieldView {
             action: #selector(dismissKeyboard)
         )
         
+        [previousButton, nextButton, doneButton].forEach {
+            $0.tintColor = UIColor.customBlack(.chineseBlack)
+        }
+        
         toolbar.items = [previousButton, spaceBetweenButtons, nextButton, flexSpace, doneButton]
         textField.inputAccessoryView = toolbar
         
