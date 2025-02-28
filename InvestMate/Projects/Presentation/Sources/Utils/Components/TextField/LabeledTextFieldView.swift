@@ -241,7 +241,7 @@ extension LabeledTextFieldView {
 private extension LabeledTextFieldView {
     
     private func textFieldDidBeginEditing() {
-        textField.layer.borderColor = UIColor.tintColor.cgColor
+        textField.layer.borderColor = UIColor.customBlack(.chineseBlack).cgColor
         textField.layer.borderWidth = 1
     }
     
