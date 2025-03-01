@@ -5,7 +5,7 @@ let project = Project(
     targets: [
         .target(
             name: "InvestMate",
-            destinations: .iOS,
+            destinations: [.iPhone],
             product: .app,
             bundleId: "io.hogeunjo.InvestMate",
             deploymentTargets: .iOS("17.5"),
@@ -13,7 +13,7 @@ let project = Project(
                 with: [
                     "CFBundleAllowMixedLocalizations": true,
                     "CFBundleShortVersionString": "1.0.0",
-                    "CFBundleVersion": "3",
+                    "CFBundleVersion": "4",
                     "UILaunchStoryboardName": "LaunchScreen.storyboard",
                     "UIApplicationSceneManifest": [
                         "UIApplicationSupportsMultipleScenes": false,
@@ -35,12 +35,7 @@ let project = Project(
                 .project(target: "Presentation", path: "../Presentation"),
                 .project(target: "Domain", path: "../Domain"),
                 .project(target: "Data", path: "../Data")
-            ],
-            settings: .settings(
-                base: [
-                    "TARGETED_DEVICE_FAMILY": "1"
-                ]
-            )
+            ]
         ),
         
         .target(
