@@ -132,34 +132,16 @@ extension LabeledTextFieldView {
     private func formatText(_ text: String?) -> String? {
         guard let text = text, !text.isEmpty else { return "" }
         let cleanText = text.replacingOccurrences(of: ",", with: "")
-        
+                
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
-        formatter.maximumFractionDigits = 0
-        
-        // 소수점이 포함된 경우
-        if cleanText.contains(".") {
-            let parts = cleanText.components(separatedBy: ".")
-            guard let integerPart = parts.first else { return text }
-            let decimalPart = parts.count > 1 ? parts[1] : ""
-            
-            let formattedInteger = formatter.string(from: NSNumber(value: Double(integerPart) ?? 0)) ?? integerPart
-            
-            if text.hasSuffix(".") {
-                return "\(formattedInteger)."
-            }
-            if !decimalPart.isEmpty {
-                return "\(formattedInteger).\(decimalPart)"
-            }
-            
-            return formattedInteger
-        }
-        
-        // 정수만 입력된 경우
+        formatter.minimumFractionDigits = 1
+        formatter.maximumFractionDigits = UserDefaults.standard.integer(forKey: "DecimalPlaces").nonZero ?? 1
+
         if let number = Double(cleanText) {
             return formatter.string(from: NSNumber(value: number)) ?? ""
         }
-        
+
         return text
     }
     
