@@ -48,7 +48,7 @@ class EmptyStateView: UIView {
         var config = UIButton.Configuration.filled()
         config.cornerStyle = .capsule
         config.baseForegroundColor = .white
-        config.baseBackgroundColor = .black
+        config.baseBackgroundColor = UIColor.customBlack(.chineseBlack)
         
         let attributes =  AttributeContainer([
             .font: UIFont.systemFont(ofSize: 16, weight: .semibold)

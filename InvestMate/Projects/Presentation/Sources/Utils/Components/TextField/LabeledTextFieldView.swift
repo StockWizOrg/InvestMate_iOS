@@ -129,62 +129,19 @@ extension LabeledTextFieldView {
         }
     }
     
-    private func validateAndFormatNumber(_ text: String, replacementString string: String? = nil) -> Bool {
-        let cleanText = text.replacingOccurrences(of: ",", with: "")
-        
-        // 빈 텍스트 처리
-        if text.isEmpty {
-            return true
-        }
-        
-        // 소수점 검증
-        if let input = string, input == "." {
-            let hasDot = cleanText.contains(".")
-            return !hasDot && cleanText != "."
-        }
-        
-        // 소수점 자릿수 검증
-        if cleanText.contains(".") {
-            let parts = cleanText.components(separatedBy: ".")
-            if parts.count > 1 && parts[1].count > 2 {
-                return false
-            }
-        }
-        
-        return true
-    }
-    
     private func formatText(_ text: String?) -> String? {
         guard let text = text, !text.isEmpty else { return "" }
         let cleanText = text.replacingOccurrences(of: ",", with: "")
-        
+                
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
-        formatter.maximumFractionDigits = 0
-        
-        // 소수점이 포함된 경우
-        if cleanText.contains(".") {
-            let parts = cleanText.components(separatedBy: ".")
-            guard let integerPart = parts.first else { return text }
-            let decimalPart = parts.count > 1 ? parts[1] : ""
-            
-            let formattedInteger = formatter.string(from: NSNumber(value: Double(integerPart) ?? 0)) ?? integerPart
-            
-            if text.hasSuffix(".") {
-                return "\(formattedInteger)."
-            }
-            if !decimalPart.isEmpty {
-                return "\(formattedInteger).\(decimalPart)"
-            }
-            
-            return formattedInteger
-        }
-        
-        // 정수만 입력된 경우
+        formatter.minimumFractionDigits = 1
+        formatter.maximumFractionDigits = UserDefaults.standard.integer(forKey: "DecimalPlaces").nonZero ?? 1
+
         if let number = Double(cleanText) {
             return formatter.string(from: NSNumber(value: number)) ?? ""
         }
-        
+
         return text
     }
     
@@ -221,6 +178,10 @@ extension LabeledTextFieldView {
             action: #selector(dismissKeyboard)
         )
         
+        [previousButton, nextButton, doneButton].forEach {
+            $0.tintColor = UIColor.customBlack(.chineseBlack)
+        }
+        
         toolbar.items = [previousButton, spaceBetweenButtons, nextButton, flexSpace, doneButton]
         textField.inputAccessoryView = toolbar
         
@@ -237,7 +198,7 @@ extension LabeledTextFieldView {
 private extension LabeledTextFieldView {
     
     private func textFieldDidBeginEditing() {
-        textField.layer.borderColor = UIColor.tintColor.cgColor
+        textField.layer.borderColor = UIColor.customBlack(.chineseBlack).cgColor
         textField.layer.borderWidth = 1
     }
     

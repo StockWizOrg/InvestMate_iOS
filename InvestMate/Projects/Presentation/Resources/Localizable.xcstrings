@@ -86,7 +86,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "ナンピン買い"
+            "value" : "追加購入"
           }
         },
         "ko" : {
@@ -108,7 +108,7 @@
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "평균단가"
+            "value" : "평균 단가"
           }
         }
       }
@@ -118,7 +118,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "ナンピン買い"
+            "value" : "追加購入"
           }
         },
         "ko" : {
@@ -348,7 +348,29 @@
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "최종보유"
+            "value" : "최종 보유"
+          }
+        }
+      }
+    },
+    "Holding Quantity" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quantity"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "保有数量"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "보유 수량"
           }
         }
       }
@@ -540,7 +562,7 @@
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "매수단가"
+            "value" : "매수 단가"
           }
         }
       }
@@ -556,7 +578,7 @@
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "매수금액"
+            "value" : "매수 금액"
           }
         }
       }
@@ -636,7 +658,7 @@
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "매도금액"
+            "value" : "매도 금액"
           }
         }
       }
@@ -652,7 +674,7 @@
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "매도단가"
+            "value" : "매도 단가"
           }
         }
       }
@@ -668,7 +690,7 @@
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "매도수량"
+            "value" : "매도 수량"
           }
         }
       }
@@ -710,7 +732,7 @@
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "株式ナンピン計算機"
+            "value" : "株式平均計算機"
           }
         },
         "ko" : {
@@ -733,6 +755,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "총 금액"
+          }
+        }
+      }
+    },
+    "Total Amount1" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Total Amount"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最終金額"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "최종 금액"
           }
         }
       }

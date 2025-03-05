@@ -38,6 +38,8 @@ public final class MainTabBarController: UITabBarController {
     }
     
     private func setupViewControllers() {
+        let imageConfig = UIImage.SymbolConfiguration(weight: .regular)
+        
         // 추가 매수 탭
         let additionalPurchaseVC = AdditionalPurchaseViewController(
             reactor: AdditionalPurchaseReactor(calculator: calculator),
@@ -46,8 +48,8 @@ public final class MainTabBarController: UITabBarController {
         let additionalPurchaseNav = UINavigationController(rootViewController: additionalPurchaseVC)
         additionalPurchaseVC.tabBarItem = UITabBarItem(
             title: String(localized: "Avg Down", bundle: .module),
-            image: UIImage(systemName: "plus.circle"),
-            selectedImage: UIImage(systemName: "plus.circle")
+            image: UIImage(systemName: "plus.circle")?.withConfiguration(imageConfig),
+            selectedImage: UIImage(systemName: "plus.circle")?.withConfiguration(imageConfig)
         )
         
         // 수익 계산 탭
@@ -55,8 +57,8 @@ public final class MainTabBarController: UITabBarController {
         let profitNav = UINavigationController(rootViewController: profitVC)
         profitVC.tabBarItem = UITabBarItem(
             title: String(localized: "Profit", bundle: .module),
-            image: UIImage(systemName: "chart.line.uptrend.xyaxis"),
-            selectedImage: UIImage(systemName: "chart.line.uptrend.xyaxis")
+            image: UIImage(systemName: "chart.line.uptrend.xyaxis")?.withConfiguration(imageConfig),
+            selectedImage: UIImage(systemName: "chart.line.uptrend.xyaxis")?.withConfiguration(imageConfig)
         )
         
         // 종목 관리 탭
@@ -67,8 +69,8 @@ public final class MainTabBarController: UITabBarController {
         let stockListNav = UINavigationController(rootViewController: stockListVC)
         stockListNav.tabBarItem = UITabBarItem(
             title: String(localized: "Holdings", bundle: .module),
-            image: UIImage(systemName: "list.bullet"),
-            selectedImage: UIImage(systemName: "list.bullet")
+            image: UIImage(systemName: "list.bullet")?.withConfiguration(imageConfig),
+            selectedImage: UIImage(systemName: "list.bullet")?.withConfiguration(imageConfig)
         )
         
         // 더보기 탭
@@ -76,8 +78,8 @@ public final class MainTabBarController: UITabBarController {
         let moreMenuNav = UINavigationController(rootViewController: moreMenuVC)
         moreMenuNav.tabBarItem = UITabBarItem(
             title: String(localized: "More", bundle: .module),
-            image: UIImage(systemName: "ellipsis"),
-            selectedImage: UIImage(systemName: "ellipsis")
+            image: UIImage(systemName: "ellipsis")?.withConfiguration(imageConfig),
+            selectedImage: UIImage(systemName: "ellipsis")?.withConfiguration(imageConfig)
         )
         
         viewControllers = [additionalPurchaseNav, profitNav, stockListNav, moreMenuNav]
@@ -85,22 +87,24 @@ public final class MainTabBarController: UITabBarController {
     
     private func setupTabBarAppearance() {
         let appearance = UITabBarAppearance()
-        
         appearance.backgroundColor = .systemGray6
-        
-        appearance.shadowColor = .gray.withAlphaComponent(0.3)
-        appearance.shadowImage = UIImage()
+        appearance.shadowColor = UIColor.gray.withAlphaComponent(0.2)
         
         let normalAttributes: [NSAttributedString.Key: Any] = [
-            .foregroundColor: UIColor.gray
+            .font: UIFont.systemFont(ofSize: 11, weight: .regular),
+            .foregroundColor: UIColor(hex: "999999")
         ]
-        let selectedAttributes: [NSAttributedString.Key: Any] = [
-            .foregroundColor: UIColor.tintColor
-        ]
-        
         appearance.stackedLayoutAppearance.normal.titleTextAttributes = normalAttributes
-        appearance.stackedLayoutAppearance.selected.titleTextAttributes = selectedAttributes
+        appearance.stackedLayoutAppearance.normal.iconColor = UIColor(hex: "999999")
         
+        let selectedAttributes: [NSAttributedString.Key: Any] = [
+            .font: UIFont.systemFont(ofSize: 11, weight: .bold),
+            .foregroundColor: UIColor(hex: "0F0F27")
+        ]
+        appearance.stackedLayoutAppearance.selected.titleTextAttributes = selectedAttributes
+        appearance.stackedLayoutAppearance.selected.iconColor = UIColor(hex: "0F0F27")
+        
+        tabBar.standardAppearance = appearance
         tabBar.scrollEdgeAppearance = appearance
     }
     

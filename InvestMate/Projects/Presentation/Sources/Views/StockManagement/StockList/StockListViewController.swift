@@ -93,6 +93,10 @@ public final class StockListViewController: UIViewController {
         
         let cancel = UIAlertAction(title: String(localized: "Cancel", bundle: .module), style: .cancel)
         
+        [additionalPurchase, edit, cancel].forEach {
+            $0.setValue(UIColor.systemBlue, forKey: "titleTextColor")
+        }
+        
         [ edit, additionalPurchase, delete, cancel ].forEach { alert.addAction($0) }
         
         present(alert, animated: true)
@@ -183,6 +187,7 @@ extension StockListViewController: StockListRefreshDelegate {
            let navigationController = tabBarController.viewControllers?[0] as? UINavigationController,
            let additionalPurchaseVC = navigationController.viewControllers.first as? AdditionalPurchaseViewController {
             
+            additionalPurchaseVC.reactor?.action.onNext(.clearInputFields)
             additionalPurchaseVC.reactor?.action.onNext(.setInitialStock(stock))
             
             tabBarController.selectedIndex = 0
