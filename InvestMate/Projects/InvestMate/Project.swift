@@ -13,7 +13,7 @@ let project = Project(
                 with: [
                     "CFBundleAllowMixedLocalizations": true,
                     "CFBundleShortVersionString": "1.0.0",
-                    "CFBundleVersion": "7",
+                    "CFBundleVersion": "8",
                     "UILaunchStoryboardName": "LaunchScreen.storyboard",
                     "UIApplicationSceneManifest": [
                         "UIApplicationSupportsMultipleScenes": false,

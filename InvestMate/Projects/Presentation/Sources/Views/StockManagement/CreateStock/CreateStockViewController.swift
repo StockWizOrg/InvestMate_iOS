@@ -174,35 +174,37 @@ extension CreateStockViewController: ReactorView {
 
     private func bindOutput(reactor: CreateStockReactor) {
         reactor.state.map(\.averagePrice)
-            .map { $0?.toFormattedString() }
-            .bind { [weak self] in
-                self?.averagePriceView.setText($0)
-            }
+            .distinctUntilChanged()
+            .subscribe(onNext: { [weak self] in
+                self?.averagePriceView.setText($0?.toFormattedString())
+            })
             .disposed(by: disposeBag)
         
         reactor.state.map(\.quantity)
-            .map { $0?.toFormattedString() }
-            .bind { [weak self] in
-                self?.quantityView.setText($0)
-            }
+            .distinctUntilChanged()
+            .subscribe(onNext: { [weak self] in
+                self?.quantityView.setText($0?.toFormattedString())
+            })
             .disposed(by: disposeBag)
         
         reactor.state.map(\.totalPrice)
-            .map { $0?.toFormattedString() }
-            .bind { [weak self] in
-                self?.totalPriceView.setText($0)
-            }
+            .distinctUntilChanged()
+            .subscribe(onNext: { [weak self] in
+                self?.totalPriceView.setText($0?.toFormattedString())
+            })
             .disposed(by: disposeBag)
         
         reactor.state.map(\.isValid)
+            .distinctUntilChanged()
             .bind(to: confirmButton.rx.isEnabled)
             .disposed(by: disposeBag)
         
         reactor.state.map(\.isComplete)
+            .distinctUntilChanged()
             .filter { $0 }
-            .bind { [weak self] _ in
+            .subscribe(onNext: { [weak self] _ in
                 self?.navigationController?.popViewController(animated: true)
-            }
+            })
             .disposed(by: disposeBag)
     }
     
