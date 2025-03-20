@@ -12,7 +12,7 @@ let project = Project(
             infoPlist: .extendingDefault(
                 with: [
                     "CFBundleAllowMixedLocalizations": true,
-                    "CFBundleShortVersionString": "1.0.0",
+                    "CFBundleShortVersionString": "1.0.1",
                     "CFBundleVersion": "8",
                     "UILaunchStoryboardName": "LaunchScreen.storyboard",
                     "UIApplicationSceneManifest": [
