@@ -127,9 +127,9 @@ public final class StockCell: UITableViewCell {
         self.stock = stock
         
         stockNameLabel.text = stock.name
-        quantityContentView.setValue("\(stock.quantity)")
-        averagePriceContentView.setValue("\(stock.averagePrice)")
-        totalContentView.setValue("\(stock.totalPrice)")
+        quantityContentView.setValue("\(stock.quantity.toFormattedString())")
+        averagePriceContentView.setValue("\(stock.averagePrice.toFormattedString())")
+        totalContentView.setValue("\(stock.totalPrice.toFormattedString())")
     }
 }
 
