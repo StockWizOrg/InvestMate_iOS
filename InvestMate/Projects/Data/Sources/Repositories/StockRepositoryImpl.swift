@@ -1,10 +1,3 @@
-//
-//  StockRepositoryImpl.swift
-//  Data
-//
-//  Created by 조호근 on 12/13/24.
-//
-
 import Foundation
 import SwiftData
 import Domain
@@ -25,22 +18,28 @@ public final class StockRepositoryImpl: StockRepository {
         return Observable.create { [weak self] observer in
             guard let self = self else { return Disposables.create() }
             
-            do {
-                let descriptor = FetchDescriptor<StockModel>()
-                let stockModels = try self.modelContext.fetch(descriptor)
-                let stocks = stockModels.map { model in
-                    Stock(
-                        id: model.id,
-                        name: model.name,
-                        averagePrice: model.averagePrice,
-                        quantity: model.quantity,
-                        totalPrice: model.totalPrice
-                    )
+            DispatchQueue.global(qos: .userInitiated).async {
+                do {
+                    let descriptor = FetchDescriptor<StockModel>()
+                    let stockModels = try self.modelContext.fetch(descriptor)
+                    let stocks = stockModels.map { model in
+                        Stock(
+                            id: model.id,
+                            name: model.name,
+                            averagePrice: model.averagePrice,
+                            quantity: model.quantity,
+                            totalPrice: model.totalPrice
+                        )
+                    }
+                    DispatchQueue.main.async {
+                        observer.onNext(stocks)
+                        observer.onCompleted()
+                    }
+                } catch {
+                    DispatchQueue.main.async {
+                        observer.onError(error)
+                    }
                 }
-                observer.onNext(stocks)
-                observer.onCompleted()
-            } catch {
-                observer.onError(error)
             }
             
             return Disposables.create()
@@ -51,22 +50,28 @@ public final class StockRepositoryImpl: StockRepository {
         return Observable.create { [weak self] observer in
             guard let self = self else { return Disposables.create() }
             
-            let stockModel = StockModel(
-                id: stock.id,
-                name: stock.name,
-                averagePrice: stock.averagePrice,
-                quantity: stock.quantity,
-                totalPrice: stock.totalPrice
-            )
-            
-            self.modelContext.insert(stockModel)
-            
-            do {
-                try self.modelContext.save()
-                observer.onNext(())
-                observer.onCompleted()
-            } catch {
-                observer.onError(error)
+            DispatchQueue.global(qos: .userInitiated).async {
+                let stockModel = StockModel(
+                    id: stock.id,
+                    name: stock.name,
+                    averagePrice: stock.averagePrice,
+                    quantity: stock.quantity,
+                    totalPrice: stock.totalPrice
+                )
+                
+                self.modelContext.insert(stockModel)
+                
+                do {
+                    try self.modelContext.save()
+                    DispatchQueue.main.async {
+                        observer.onNext(())
+                        observer.onCompleted()
+                    }
+                } catch {
+                    DispatchQueue.main.async {
+                        observer.onError(error)
+                    }
+                }
             }
             
             return Disposables.create()
@@ -77,24 +82,30 @@ public final class StockRepositoryImpl: StockRepository {
         return Observable.create { [weak self] observer in
             guard let self = self else { return Disposables.create() }
             
-            do {
-                let stockId = stock.id
-                let descriptor = FetchDescriptor<StockModel>(
-                    predicate: #Predicate<StockModel> { $0.id == stockId }
-                )
-                
-                if let existingStock = try self.modelContext.fetch(descriptor).first {
-                    existingStock.name = stock.name
-                    existingStock.averagePrice = stock.averagePrice
-                    existingStock.quantity = stock.quantity
-                    existingStock.totalPrice = stock.totalPrice
+            DispatchQueue.global(qos: .userInitiated).async {
+                do {
+                    let stockId = stock.id
+                    let descriptor = FetchDescriptor<StockModel>(
+                        predicate: #Predicate<StockModel> { $0.id == stockId }
+                    )
                     
-                    try self.modelContext.save()
-                    observer.onNext(())
-                    observer.onCompleted()
+                    if let existingStock = try self.modelContext.fetch(descriptor).first {
+                        existingStock.name = stock.name
+                        existingStock.averagePrice = stock.averagePrice
+                        existingStock.quantity = stock.quantity
+                        existingStock.totalPrice = stock.totalPrice
+                        
+                        try self.modelContext.save()
+                        DispatchQueue.main.async {
+                            observer.onNext(())
+                            observer.onCompleted()
+                        }
+                    }
+                } catch {
+                    DispatchQueue.main.async {
+                        observer.onError(error)
+                    }
                 }
-            } catch {
-                observer.onError(error)
             }
             
             return Disposables.create()
@@ -105,24 +116,28 @@ public final class StockRepositoryImpl: StockRepository {
         return Observable.create { [weak self] observer in
             guard let self = self else { return Disposables.create() }
             
-            do {
-                let descriptor = FetchDescriptor<StockModel>(
-                    predicate: #Predicate<StockModel> { $0.id == id }
-                )
-                
-                if let stockToDelete = try self.modelContext.fetch(descriptor).first {
-                    self.modelContext.delete(stockToDelete)
-                    try self.modelContext.save()
-                    observer.onNext(())
-                    observer.onCompleted()
+            DispatchQueue.global(qos: .userInitiated).async {
+                do {
+                    let descriptor = FetchDescriptor<StockModel>(
+                        predicate: #Predicate<StockModel> { $0.id == id }
+                    )
+                    
+                    if let stockToDelete = try self.modelContext.fetch(descriptor).first {
+                        self.modelContext.delete(stockToDelete)
+                        try self.modelContext.save()
+                        DispatchQueue.main.async {
+                            observer.onNext(())
+                            observer.onCompleted()
+                        }
+                    }
+                } catch {
+                    DispatchQueue.main.async {
+                        observer.onError(error)
+                    }
                 }
-            } catch {
-                observer.onError(error)
             }
             
             return Disposables.create()
         }
     }
-    
-    
 }
