@@ -28,7 +28,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // 의존성 주입
         let calculator = StockCalculatorImpl()
         let profitCalculator = ProfitCalculatorImpl()
-        
+        let versionChecker = MockAppVersionCheck(shouldShowUpdate: true)
         
         // repository 생성 시 에러 처리
         do {
@@ -41,7 +41,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             let tabBarController = MainTabBarController(
                 calculator: calculator,
                 profitCalculator: profitCalculator,
-                stockManager: stockManager
+                stockManager: stockManager,
+                versionChecker: versionChecker
             )
             
             window.rootViewController = tabBarController
