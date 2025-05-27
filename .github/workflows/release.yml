@@ -26,11 +26,15 @@ jobs:
       - name: Install Tuist
         run: curl -Ls https://install.tuist.io | bash
 
+      - name: Install Mise
+        run: |
+          curl https://mise.run | sh
+          mise install
+
       - name: Set up Tuist project
         run: |
-          export PATH="$HOME/.tuist/bin:$PATH" # 터미널에서 tuist 명령어를 인식할 수 있도록 실행 파일 경로를 시스템 PATH에 추가
-          tuist install
-          tuist generate
+          mise x -- tuist install
+          mise x -- tuist generate
 
       - name: Decode asc_api_key.json
         run: |
