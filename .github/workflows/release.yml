@@ -7,11 +7,15 @@ jobs:
   release:
     runs-on: macos-latest
 
+    defaults:
+      run:
+        working-directory: ./InvestMate
+
     steps:
       - name: Checkout source code
         uses: actions/checkout@v4
 
-      - name: 💎 Set up Ruby
+      - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: '3.2'
@@ -19,12 +23,12 @@ jobs:
       - name: Install Bundler & Gems
         run: bundle install
 
-      - name: ⚙Install Tuist
+      - name: Install Tuist
         run: curl -Ls https://install.tuist.io | bash
 
       - name: Set up Tuist project
         run: |
-          export PATH="$HOME/.tuist/bin:$PATH"
+          export PATH="$HOME/.tuist/bin:$PATH" # 터미널에서 tuist 명령어를 인식할 수 있도록 실행 파일 경로를 시스템 PATH에 추가
           tuist install
           tuist generate
 
@@ -34,7 +38,7 @@ jobs:
           echo "${{ secrets.ASC_API_KEY_JSON_BASE64 }}" | base64 --decode > fastlane/asc_api_key.json
 
       - name: Decode .env
-        run: echo "${{ secrets.ENV_FILE_BASE64 }}" | base64 --decode > .env
+        run: echo "${{ secrets.ENV_FILE_BASE64 }}" | base64 --decode > fastlane/.env
 
       - name: Select Xcode version
         run: sudo xcode-select -s /Applications/Xcode_16.3.app/Contents/Developer
