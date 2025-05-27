@@ -28,7 +28,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // 의존성 주입
         let calculator = StockCalculatorImpl()
         let profitCalculator = ProfitCalculatorImpl()
-        let versionChecker = MockAppVersionCheck(shouldShowUpdate: true)
+        let versionChecker = AppVersionCheckImpl()
         
         // repository 생성 시 에러 처리
         do {
