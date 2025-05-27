@@ -68,3 +68,8 @@ Derived/
 
 ### Tuist managed dependencies ###
 Tuist/.build
+
+# Fastlane 
+fastlane/.env.default
+fastlane/asc_api_key.json
+fastlane/report.xml
