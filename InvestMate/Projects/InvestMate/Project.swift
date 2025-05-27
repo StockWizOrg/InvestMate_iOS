@@ -12,8 +12,8 @@ let project = Project(
             infoPlist: .extendingDefault(
                 with: [
                     "CFBundleAllowMixedLocalizations": true,
-                    "CFBundleShortVersionString": "1.0.1",
-                    "CFBundleVersion": "8",
+                    "CFBundleShortVersionString": "1.0.5",
+                    "ITSAppUsesNonExemptEncryption": false,
                     "UILaunchStoryboardName": "LaunchScreen.storyboard",
                     "UIApplicationSceneManifest": [
                         "UIApplicationSupportsMultipleScenes": false,
@@ -35,7 +35,34 @@ let project = Project(
                 .project(target: "Presentation", path: "../Presentation"),
                 .project(target: "Domain", path: "../Domain"),
                 .project(target: "Data", path: "../Data")
-            ]
+            ],
+            settings: .settings(
+                base: [
+                    "CODE_SIGN_STYLE": "Manual",
+                    "DEVELOPMENT_TEAM": "MVHA5LVM49",
+                    "VERSIONING_SYSTEM": "apple-generic",
+                    "CURRENT_PROJECT_VERSION": "0"
+                ],
+                configurations: [
+                    .debug(
+                        name: "Debug",
+                        settings: [
+                            "ASSETCATALOG_COMPILER_APPICON_NAME": "DevAppIcon",
+                            "PRODUCT_BUNDLE_IDENTIFIER": "io.hogeunjo.InvestMate.dev",
+                            "PROVISIONING_PROFILE_SPECIFIER": "match Development io.hogeunjo.InvestMate.dev",
+                            "CODE_SIGN_IDENTITY": "Apple Development: HoGeun Jo (89N845W6M8)"
+                        ]
+                    ),
+                    .release(
+                        name: "Release",
+                        settings: [
+                            "PRODUCT_BUNDLE_IDENTIFIER": "io.hogeunjo.InvestMate",
+                            "PROVISIONING_PROFILE_SPECIFIER": "match AppStore io.hogeunjo.InvestMate",
+                            "CODE_SIGN_IDENTITY": "Apple Distribution: HoGeun Jo (MVHA5LVM49)"
+                        ]
+                    )
+                ]
+            )
         ),
         
         .target(
