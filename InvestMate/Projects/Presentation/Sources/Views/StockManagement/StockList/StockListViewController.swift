@@ -18,8 +18,8 @@ public final class StockListViewController: UIViewController {
     
     private let tableView = UITableView()
     private let emptyStateView = EmptyStateView()
+    private let loadingView = LoadingView()
     private let addButton = UIBarButtonItem()
-    
     
     public init(reactor: StockListReactor, calculator: StockCalculatorUseCase) {
         self.calculator = calculator
@@ -31,16 +31,18 @@ public final class StockListViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    public override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        reactor?.action.onNext(.refresh)
+    }
+    
     public override func viewDidLoad() {
         super.viewDidLoad()
 
         setStyle()
         setUI()
         setLayout()
-        
-        DispatchQueue.main.async { [weak self] in
-            self?.reactor?.action.onNext(.refresh)
-        }
     }
     
     private func setStyle() {
@@ -50,7 +52,6 @@ public final class StockListViewController: UIViewController {
         tableView.backgroundColor = .systemGray6
         tableView.separatorStyle = .none
         
-        
         addButton.image = UIImage(systemName: "plus")
         navigationItem.rightBarButtonItem = addButton
     }
@@ -58,7 +59,8 @@ public final class StockListViewController: UIViewController {
     private func setUI() {
         view.addSubviews(
             tableView,
-            emptyStateView
+            emptyStateView,
+            loadingView
         )
     }
     
@@ -72,7 +74,12 @@ public final class StockListViewController: UIViewController {
             emptyStateView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             emptyStateView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             emptyStateView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            emptyStateView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            emptyStateView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            
+            loadingView.topAnchor.constraint(equalTo: view.topAnchor),
+            loadingView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            loadingView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            loadingView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
     
@@ -134,19 +141,31 @@ extension StockListViewController: ReactorView {
                 cell.configure(with: stock)
                 cell.menuButtonTap
                     .subscribe(onNext: { [weak self] stock in
-                        print("Menu button tapped for stock:", stock)
                         self?.showActionSheet(for: stock)
                     })
                     .disposed(by: cell.disposeBag)
             }
             .disposed(by: disposeBag)
         
+        reactor.state.map(\.isLoading)
+            .distinctUntilChanged()
+            .subscribe(onNext: { [weak self] isLoading in
+                if isLoading {
+                    self?.loadingView.startLoading()
+                } else {
+                    self?.loadingView.stopLoading()
+                }
+            })
+            .disposed(by: disposeBag)
+        
         stocks
+            .filter { _ in !(reactor.currentState.isLoading) }
             .map { $0.isEmpty }
             .bind(to: tableView.rx.isHidden)
             .disposed(by: disposeBag)
             
         stocks
+            .filter { _ in !(reactor.currentState.isLoading) }
             .map { !$0.isEmpty }
             .bind(to: emptyStateView.rx.isHidden)
             .disposed(by: disposeBag)

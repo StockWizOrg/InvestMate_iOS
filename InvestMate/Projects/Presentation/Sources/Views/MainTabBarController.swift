@@ -8,21 +8,28 @@
 import UIKit
 
 import Domain
+import RxSwift
 
 public final class MainTabBarController: UITabBarController {
+    
+    let appID = "6741756312"
     
     private let calculator: StockCalculatorUseCase
     private let profitCalculator: ProfitCalculatorUseCase
     private let stockManager: StockManagementUseCase
+    private let versionChecker: AppVersionCheckUseCase
+    private let disposeBag = DisposeBag()
     
     public init(
         calculator: StockCalculatorUseCase,
         profitCalculator: ProfitCalculatorUseCase,
-        stockManager: StockManagementUseCase
+        stockManager: StockManagementUseCase,
+        versionChecker: AppVersionCheckUseCase
     ) {
         self.calculator = calculator
         self.profitCalculator = profitCalculator
         self.stockManager = stockManager
+        self.versionChecker = versionChecker
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -35,6 +42,7 @@ public final class MainTabBarController: UITabBarController {
         
         setupViewControllers()
         setupTabBarAppearance()
+        checkAppVersion()
     }
     
     private func setupViewControllers() {
@@ -108,6 +116,54 @@ public final class MainTabBarController: UITabBarController {
         tabBar.scrollEdgeAppearance = appearance
     }
     
+    private func checkAppVersion() {
+        versionChecker.checkAppVersion()
+            .subscribe(onNext: { [weak self] status in
+                if case let .updateAvailable(currentVersion, latestVersion) = status {
+                    print("Update available: current=\(currentVersion), latest=\(latestVersion)")
+                    DispatchQueue.main.async {
+                        self?.showUpdateAlert(currentVersion: currentVersion, latestVersion: latestVersion)
+                    }
+                }
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    private func showUpdateAlert(currentVersion: String, latestVersion: String) {
+        let alert = UIAlertController(
+            title: String(localized: "Update Notice", bundle: .module),
+            message: String(localized: "Update InvestMate to the latest version.", bundle: .module),
+            preferredStyle: .alert
+        )
+        
+        let updateAction = UIAlertAction(
+            title: String(localized: "Update", bundle: .module),
+            style: .default
+        ) { [weak self] _ in
+            self?.openAppStore()
+        }
+        
+        let laterAction = UIAlertAction(
+            title: String(localized: "Later", bundle: .module),
+            style: .cancel
+        )
+        
+        [updateAction, laterAction].forEach {
+            $0.setValue(UIColor.systemBlue, forKey: "titleTextColor")
+        }
+        
+        alert.addAction(laterAction)
+        alert.addAction(updateAction)
+        
+        present(alert, animated: true)
+    }
+    
+    private func openAppStore() {
+        if let url = URL(string: "itms-apps://itunes.apple.com/app/id\(appID)") {
+            UIApplication.shared.open(url)
+        }
+    }
+    
 }
 
 #if DEBUG
@@ -117,11 +173,13 @@ import SwiftUI
     let mock = StockCalculatorImpl()
     let secondMock = ProfitCalculatorImpl()
     let thirdMock = MockStockManagement()
+    let fourthMock = MockAppVersionCheck()
     
     MainTabBarController(
         calculator: mock,
         profitCalculator: secondMock,
-        stockManager: thirdMock
+        stockManager: thirdMock,
+        versionChecker: fourthMock
     ).toPreview()
 }
 
