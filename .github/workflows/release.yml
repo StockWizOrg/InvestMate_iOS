@@ -1,0 +1,43 @@
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  release:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
+
+      - name: 💎 Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2'
+
+      - name: Install Bundler & Gems
+        run: bundle install
+
+      - name: ⚙Install Tuist
+        run: curl -Ls https://install.tuist.io | bash
+
+      - name: Set up Tuist project
+        run: |
+          export PATH="$HOME/.tuist/bin:$PATH"
+          tuist install
+          tuist generate
+
+      - name: Decode asc_api_key.json
+        run: |
+          mkdir -p fastlane
+          echo "${{ secrets.ASC_API_KEY_JSON_BASE64 }}" | base64 --decode > fastlane/asc_api_key.json
+
+      - name: Decode .env
+        run: echo "${{ secrets.ENV_FILE_BASE64 }}" | base64 --decode > .env
+
+      - name: Select Xcode version
+        run: sudo xcode-select -s /Applications/Xcode_16.3.app/Contents/Developer
+
+      - name: Run Fastlane Release
+        run: bundle exec fastlane release
