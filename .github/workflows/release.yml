@@ -4,10 +4,6 @@ on:
       - main
 
 jobs:
-  build:
-    name: Build iOS Project
-    runs-on: macos-latest
-
   release:
     runs-on: macos-latest
 
