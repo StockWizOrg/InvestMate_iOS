@@ -7,7 +7,7 @@ on:
 
 jobs:
   release:
-    runs-on: macos-latest
+    runs-on: macos-15
 
     defaults:
       run:
@@ -46,8 +46,11 @@ jobs:
       - name: Decode .env
         run: echo "${{ secrets.ENV_FILE_BASE64 }}" | base64 --decode > fastlane/.env
 
-      - name: Select Xcode version
-        run: sudo xcode-select -switch /Applications/Xcode.app
+      - name: Select Xcode 16.3
+        run: sudo xcode-select -switch /Applications/Xcode_16.3.app
+
+      - name: Check selected Xcode version
+        run: xcodebuild -version
 
       - name: Run Fastlane Release
         run: bundle exec fastlane release
