@@ -49,5 +49,8 @@ jobs:
       - name: Decode .env
         run: echo "${{ secrets.ENV_FILE_BASE64 }}" | base64 --decode > fastlane/.env
 
+      - name: Select Xcode version
+        run: sudo xcode-select -switch /Applications/Xcode.app
+
       - name: Run Fastlane Release
         run: bundle exec fastlane release
