@@ -71,6 +71,8 @@ platform :ios do
   # 공통 작업: match, 빌드번호 증가, 빌드
   # ===============================
   private_lane :prepare_build do
+    setup_ci
+
     match(
       type: "appstore",
       readonly: true,
