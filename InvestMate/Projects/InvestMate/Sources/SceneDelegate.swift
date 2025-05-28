@@ -24,40 +24,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let window = UIWindow(windowScene: windowScene)
         window.overrideUserInterfaceStyle = .light
         window.tintColor = UIColor.customBlack(.chineseBlack)
+        self.window = window
         
-        // 의존성 주입
-        let calculator = StockCalculatorImpl()
-        let profitCalculator = ProfitCalculatorImpl()
-        let versionChecker = AppVersionCheckImpl()
+        let splashViewController = SplashViewController()
+        window.rootViewController = splashViewController
+        window.makeKeyAndVisible()
         
-        // repository 생성 시 에러 처리
-        do {
-            let repository = try StockRepositoryImpl()
-            let stockManager = StockManagementImpl(
-                repository: repository,
-                calculator: calculator
-            )
-            
-            let tabBarController = MainTabBarController(
-                calculator: calculator,
-                profitCalculator: profitCalculator,
-                stockManager: stockManager,
-                versionChecker: versionChecker
-            )
-            
-            window.rootViewController = tabBarController
-            window.makeKeyAndVisible()
-            self.window = window
-            
-        } catch {
-            // 에러 처리
-            print("Repository 초기화 실패: \(error)")
-            // 적절한 에러 처리 UI 표시
-            let errorVC = UIViewController()
-            errorVC.view.backgroundColor = .systemBackground
-            window.rootViewController = errorVC
-            window.makeKeyAndVisible()
-            self.window = window
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+            self.setupTabBarInterface()
         }
     }
     
@@ -73,9 +48,38 @@ extension SceneDelegate {
             .foregroundColor: UIColor.black,
             .font: UIFont.systemFont(ofSize: 20, weight: .bold)
         ]
-
+        
         UINavigationBar.appearance().standardAppearance = appearance
         UINavigationBar.appearance().scrollEdgeAppearance = appearance
+    }
+    
+    private func setupTabBarInterface() {
+        let calculator = StockCalculatorImpl()
+        let profitCalculator = ProfitCalculatorImpl()
+        let versionChecker = AppVersionCheckImpl()
+        
+        do {
+            let repository = try StockRepositoryImpl()
+            let stockManager = StockManagementImpl(
+                repository: repository,
+                calculator: calculator
+            )
+            
+            let tabBarController = MainTabBarController(
+                calculator: calculator,
+                profitCalculator: profitCalculator,
+                stockManager: stockManager,
+                versionChecker: versionChecker
+            )
+            
+            window?.rootViewController = tabBarController
+            
+        } catch {
+            print("Repository 초기화 실패: \(error)")
+            let errorVC = UIViewController()
+            errorVC.view.backgroundColor = .systemBackground
+            window?.rootViewController = errorVC
+        }
     }
     
 }
