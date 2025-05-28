@@ -28,7 +28,7 @@ public class SplashViewController: UIViewController {
         titleLabel.font = .systemFont(ofSize: 28, weight: .bold)
         titleLabel.textColor = .white
         
-        view.backgroundColor = UIColor(red: 0.059, green: 0.059, blue: 0.153, alpha: 1.0)
+        view.backgroundColor = UIColor(named: "IM_BackgroundColor")
     }
     
     private func setUI() {
