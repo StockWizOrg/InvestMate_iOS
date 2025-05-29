@@ -63,9 +63,12 @@ jobs:
 
       - name: Commit & Push bumped Version.xcconfig
         if: ${{ success() }}
+        env:
+         GIT_USER_NAME: ${{ secrets.GIT_USER_NAME }}
+         GIT_USER_EMAIL: ${{ secrets.GIT_USER_EMAIL }}
         run: |
-         git config user.name "${{ github.actor }}"
-         git config user.email "104732020+joho2022@users.noreply.github.com"
+         git config user.name "$GIT_USER_NAME"
+         git config user.email "$GIT_USER_EMAIL"
          git add Projects/InvestMate/Configuration/Version.xcconfig
          git commit -m "bump build number [skip ci]"
          git push origin HEAD:main
