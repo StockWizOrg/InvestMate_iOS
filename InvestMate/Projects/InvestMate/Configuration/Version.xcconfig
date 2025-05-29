@@ -1,0 +1,13 @@
+//
+//  Version.xcconfig
+//  
+//
+//  Created by 조호근 on 5/29/25.
+//
+
+// Configuration settings file format documentation can be found at:
+// https://developer.apple.com/documentation/xcode/adding-a-build-configuration-file-to-your-project
+
+CFBundleShortVersionString = 1.0.6
+
+CURRENT_PROJECT_VERSION = 8
