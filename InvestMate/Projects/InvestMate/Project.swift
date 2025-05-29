@@ -12,7 +12,6 @@ let project = Project(
             infoPlist: .extendingDefault(
                 with: [
                     "CFBundleAllowMixedLocalizations": true,
-                    "CFBundleShortVersionString": "1.0.5",
                     "ITSAppUsesNonExemptEncryption": false,
                     "UILaunchStoryboardName": "LaunchScreen.storyboard",
                     "UIApplicationSceneManifest": [
@@ -26,7 +25,9 @@ let project = Project(
                             ]
                         ]
                     ],
-                    "CFBundleIconName": "AppIcon"
+                    "CFBundleIconName": "AppIcon",
+                    "CFBundleShortVersionString": "$(CFBundleShortVersionString)",
+                    "CFBundleVersion": "$(CURRENT_PROJECT_VERSION)"
                 ]
             ),
             sources: ["Sources/**"],
@@ -40,8 +41,7 @@ let project = Project(
                 base: [
                     "CODE_SIGN_STYLE": "Manual",
                     "DEVELOPMENT_TEAM": "MVHA5LVM49",
-                    "VERSIONING_SYSTEM": "apple-generic",
-                    "CURRENT_PROJECT_VERSION": "0"
+                    "VERSIONING_SYSTEM": "apple-generic"
                 ],
                 configurations: [
                     .debug(
@@ -51,7 +51,8 @@ let project = Project(
                             "PRODUCT_BUNDLE_IDENTIFIER": "io.hogeunjo.InvestMate.dev",
                             "PROVISIONING_PROFILE_SPECIFIER": "match Development io.hogeunjo.InvestMate.dev",
                             "CODE_SIGN_IDENTITY": "Apple Development: HoGeun Jo (89N845W6M8)"
-                        ]
+                        ],
+                        xcconfig: "Configuration/Version.xcconfig"
                     ),
                     .release(
                         name: "Release",
@@ -59,7 +60,8 @@ let project = Project(
                             "PRODUCT_BUNDLE_IDENTIFIER": "io.hogeunjo.InvestMate",
                             "PROVISIONING_PROFILE_SPECIFIER": "match AppStore io.hogeunjo.InvestMate",
                             "CODE_SIGN_IDENTITY": "Apple Distribution: HoGeun Jo (MVHA5LVM49)"
-                        ]
+                        ],
+                        xcconfig: "Configuration/Version.xcconfig"
                     )
                 ]
             )
