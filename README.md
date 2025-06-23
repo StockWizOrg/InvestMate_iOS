@@ -90,9 +90,10 @@ $ open InvestMateWorkspace.xcworkspace
 <br>
 
 # 구조
-MVVM + Clean Architecture 기반으로 구성되었습니다.<br>
-MVVM 처럼 개발자, 회사마다 모두 달라 규격화된 것이 없어,<br>
-ReactorKit을 도입해 일관성 있는 구조를 유지하도록 설계했습니다.<br>
+MVVM은 개발자, 회사마다 모두 달라 규격화된 것이 없어,<br>
+ReactorKit 기반으로 앱을 구성했으며, 이는 MVI 아키텍처를 따릅니다.<br>
+사용자 입력은 Action으로 전달되고 State로 반영되는 단방향 흐름을 유지합니다.<br>
+그리고 Clean Architecture를 적용해 계층 간 의존성을 줄이고, 책임 분리로 유지보수성과 테스트 효율을 높였습니다.
 
 <br>
 
